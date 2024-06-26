@@ -208,14 +208,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 632151281}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38715005, y: -0.011522351, z: 0.0048386194, w: 0.92193204}
-  m_LocalPosition: {x: 0.5, y: 20.456999, z: -20}
+  m_LocalRotation: {x: 0.47185796, y: 0, z: 0, w: 0.8816746}
+  m_LocalPosition: {x: 0, y: 15.057, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1063214666}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -46.726}
 --- !u!114 &632151284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -745,19 +745,19 @@ Camera:
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
+  m_projectionMatrixMode: 2
   m_GateFitMode: 2
   m_FOVAxisMode: 0
   m_Iso: 200
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 1.3737388
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
   m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
+  m_SensorSize: {x: 1, y: 1}
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -793,8 +793,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38715005, y: -0.011522351, z: 0.0048386194, w: 0.92193204}
-  m_LocalPosition: {x: 0.5, y: 20.456999, z: -20}
+  m_LocalRotation: {x: 0.47185796, y: 0, z: 0, w: 0.8816746}
+  m_LocalPosition: {x: 0, y: 15.057, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -844,8 +844,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1063214666}
   - component: {fileID: 1063214667}
-  - component: {fileID: 1063214670}
-  - component: {fileID: 1063214671}
+  - component: {fileID: 1063214672}
+  - component: {fileID: 1063214673}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -880,7 +880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1063214670
+--- !u!114 &1063214672
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -892,7 +892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e8b78ac948f05a46a6d8339a503172b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1063214671
+--- !u!114 &1063214673
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -901,21 +901,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1063214665}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd6043bde05a7fc4cba197d06915c1e3, type: 3}
+  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damping: {x: 0.1, y: 0.5, z: 0.3}
-  ShoulderOffset: {x: 0.5, y: 20, z: 0}
-  VerticalArmLength: 0.4
-  CameraSide: 1
-  CameraDistance: 20
-  CameraCollisionFilter:
-    serializedVersion: 2
-    m_Bits: 0
-  IgnoreTag: 
-  CameraRadius: 0.2
-  DampingIntoCollision: 0
-  DampingFromCollision: 2
+  m_BindingMode: 4
+  m_FollowOffset: {x: 0, y: 15, z: -10}
+  m_XDamping: 1
+  m_YDamping: 1
+  m_ZDamping: 1
+  m_AngularDampingMode: 0
+  m_PitchDamping: 0
+  m_YawDamping: 0
+  m_RollDamping: 0
+  m_AngularDamping: 0
 --- !u!1 &1566818039
 GameObject:
   m_ObjectHideFlags: 0
@@ -993,6 +991,7 @@ MonoBehaviour:
   _joystick: {fileID: 891516086}
   _animator: {fileID: 1566818044}
   _moveSpeed: 4
+  _rotationSpeed: 10
 --- !u!54 &1566818043
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1054,7 +1053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementJoystick: {fileID: 1566818042}
-  _health: {fileID: 1566818046}
+  playerHealthController: {fileID: 0}
   _animator: {fileID: 1566818044}
 --- !u!114 &1566818046
 MonoBehaviour:

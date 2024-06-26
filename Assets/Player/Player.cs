@@ -44,9 +44,17 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
         _movementJoystick.Move();
     }
 
-    void IDamageble()
+    public void Damage(int damageAmount)
     {
-        //TODO ekle bisiler
+        
+            Debug.Log("dead");
         
     }
+
+    public void Kill()
+    {
+        Debug.Log("kill");
+    }
+    
+   
 }
