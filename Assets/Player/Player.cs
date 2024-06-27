@@ -6,15 +6,15 @@ using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour , IKillable , IDamageble<int>
 {
-    [SerializeField] private CharacterMovementJoystick _movementJoystick;
+    [SerializeField]  private CharacterMovementJoystick _movementJoystick;
     [SerializeField] private PlayerHealthController   playerHealthController;
-    [SerializeField] private Animator _animator;
+    [SerializeField]private Animator _animator;
     void Start()
     {    
         _movementJoystick = GetComponent<CharacterMovementJoystick>();
         playerHealthController = GetComponent<PlayerHealthController>();
         playerHealthController.initHealth();
-
+        playerHealthController.DecreaseHealth += PlayerHealthControllerOnTakeDamage;
         playerHealthController.HealthZero += PlayerHealthControllerOnHealthZero;
     }
 
@@ -22,10 +22,15 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
     {
         // TODO
         // durumlari ekle
-        //  
+        // controlleri birakcaz 
+        Debug.Log("Event in Dead den haberi var");
         
     }
 
+    private void PlayerHealthControllerOnTakeDamage(int currentHealth)
+    {
+        Debug.Log("in event send a damage info");
+    }
 
     void Update()
     {
