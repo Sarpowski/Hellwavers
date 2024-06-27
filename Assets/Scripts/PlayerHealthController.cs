@@ -46,7 +46,7 @@ public class PlayerHealthController : MonoBehaviour , IDamageble<int>
        return currentMaxVal > 0 ? currentMaxVal : _defaultHealth;
     }
 
-    public void Damage(int damageAmount)
+    public void TakeDamage(int damageAmount)
     {
         if (_currentHealth <= 0)
         {

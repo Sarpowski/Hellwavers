@@ -57,7 +57,7 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
         if (Input.GetKeyDown(KeyCode.H))
         {
             Debug.Log("H tusuna basildi");
-            playerHealthController.Damage(1);
+            playerHealthController.TakeDamage(1);
             Debug.Log(playerHealthController.getHealth());
         }
         //damage burda handle edilcek fonksiyon ile
@@ -69,16 +69,28 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
         _movementJoystick.Move();
     }
     
-    public void Damage(int damageAmount)
+    public void TakeDamage(int damageAmount)
     {
-        playerHealthController.Damage(damageAmount);   
+        playerHealthController.TakeDamage(damageAmount);   
     }
 
    
     public void Kill()
     {
-        playerHealthController.Damage(playerHealthController.getHealth());
+        playerHealthController.TakeDamage(playerHealthController.getHealth());
     }
+
     
     
+    
+    public void OnCollisionEnter(Collision other)
+    {
+        
+        if (other.gameObject.tag == "Enemy")
+        {
+            Debug.Log("Taking damage");
+            playerHealthController.TakeDamage(1);
+ 
+        }
+    }
 }
