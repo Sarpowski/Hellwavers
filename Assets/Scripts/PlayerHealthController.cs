@@ -18,6 +18,7 @@ public class PlayerHealthController : MonoBehaviour , IDamageble<int>
     public event Action<int> DecreaseHealth; //ui icin
    
     //start
+    
     public void initHealth()
     {
         _maxHealth = setDefaultHealth(_maxHealth);
@@ -33,7 +34,7 @@ public class PlayerHealthController : MonoBehaviour , IDamageble<int>
     
     private int setDefaultHealth(int currentMaxVal)
     {
-        if (currentMaxVal> 0)
+       /* if (currentMaxVal> 0)
         {
             return currentMaxVal;
         }
@@ -41,16 +42,28 @@ public class PlayerHealthController : MonoBehaviour , IDamageble<int>
         {
             return _defaultHealth;
         }
+        */
+       return currentMaxVal > 0 ? currentMaxVal : _defaultHealth;
     }
 
     public void Damage(int damageAmount)
     {
+        if (_currentHealth <= 0)
+        {
+            Debug.LogError("_currentHealth is not initialized.");
+            //bisiler olmali  
+            return;
+        }
+        
         _currentHealth -= damageAmount;
         DecreaseHealth?.Invoke(_currentHealth);
-        if (_currentHealth < _minHealth) //fix minik bir logic bug var gibi
+      
+        
+        if (_currentHealth <= _minHealth) //fix minik bir logic bug var gibi
         {
             HealthZero?.Invoke();
-            Debug.Log("dead");
+            // Debug.Log("dead");
+          
         }
     }
     

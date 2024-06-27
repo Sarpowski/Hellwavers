@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +10,22 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
     [SerializeField]  private CharacterMovementJoystick _movementJoystick;
     [SerializeField] private PlayerHealthController   playerHealthController;
     [SerializeField]private Animator _animator;
+    
+    public event Action<int> PlayerHealthChanged;
+    public event Action PlayerDied;
+    
     void Start()
     {    
         _movementJoystick = GetComponent<CharacterMovementJoystick>();
         playerHealthController = GetComponent<PlayerHealthController>();
+       
+        if (playerHealthController == null)
+        {
+            Debug.LogError("PlayerHealthController component is missing on the Player object.");
+            return;
+        }
+
+        
         playerHealthController.initHealth();
         playerHealthController.DecreaseHealth += PlayerHealthControllerOnTakeDamage;
         playerHealthController.HealthZero += PlayerHealthControllerOnHealthZero;
@@ -24,14 +37,21 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
         // durumlari ekle
         // controlleri birakcaz 
         Debug.Log("Event in Dead den haberi var");
+        Die();
         
     }
-
+    
     private void PlayerHealthControllerOnTakeDamage(int currentHealth)
     {
-        Debug.Log("in event send a damage info");
+        PlayerHealthChanged?.Invoke(currentHealth);
+        
     }
-
+    
+    public void Die()
+    {
+        PlayerDied?.Invoke();
+    }
+    
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.H))
@@ -48,18 +68,17 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
         // Movement logic
         _movementJoystick.Move();
     }
-
+    
     public void Damage(int damageAmount)
     {
-        
-            Debug.Log("dead");
-        
+        playerHealthController.Damage(damageAmount);   
     }
 
+   
     public void Kill()
     {
-        Debug.Log("kill");
+        playerHealthController.Damage(playerHealthController.getHealth());
     }
     
-   
+    
 }
