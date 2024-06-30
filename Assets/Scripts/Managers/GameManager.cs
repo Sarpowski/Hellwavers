@@ -8,13 +8,19 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
     public Player player;
-    
+
+    public PlayerHealthController health;
+    //test
+   [SerializeField] public SceneHandler scene;
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            
+            //Sor ogren niye
+            
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {

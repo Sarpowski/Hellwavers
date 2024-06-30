@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class PlayerHealthController : MonoBehaviour , IDamageble<int>
 {
-    [SerializeField] private int _maxHealth;
+    [SerializeField] private int _maxHealth = 3;
     [SerializeField] private int _minHealth;
-    [SerializeField] private int _currentHealth;
-    private int _defaultHealth = 100;
+    [SerializeField] private int _currentHealth=3; 
+    private int _defaultHealth = 3;
     
     public event Action  HealthZero;
 
@@ -18,7 +18,11 @@ public class PlayerHealthController : MonoBehaviour , IDamageble<int>
     public event Action<int> DecreaseHealth; //ui icin
    
     //start
-    
+    private void Start()
+    {
+        _maxHealth = 3;
+    }
+
     public void initHealth()
     {
         _maxHealth = setDefaultHealth(_maxHealth);
@@ -34,27 +38,21 @@ public class PlayerHealthController : MonoBehaviour , IDamageble<int>
     
     private int setDefaultHealth(int currentMaxVal)
     {
-       /* if (currentMaxVal> 0)
-        {
-            return currentMaxVal;
-        }
-        else
-        {
-            return _defaultHealth;
-        }
-        */
+       
        return currentMaxVal > 0 ? currentMaxVal : _defaultHealth;
     }
 
     public void TakeDamage(int damageAmount)
     {
+       /*
         if (_currentHealth <= 0)
         {
             Debug.LogError("_currentHealth is not initialized.");
             //bisiler olmali  
             return;
         }
-        
+        */
+       
         _currentHealth -= damageAmount;
         DecreaseHealth?.Invoke(_currentHealth);
       

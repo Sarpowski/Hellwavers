@@ -1,22 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class UI_PlayerHealth_Controller : MonoBehaviour
+public class UI_Controller : MonoBehaviour
 {
     //can be list or array for dynamic 
      public GameObject heart_1;
      public GameObject heart_2;
      public GameObject heart_3;
-    
+
+     public GameObject restartButton;
      //can be generic
    
      private void Start()
      {
-         Debug.Log("UI WORKS");
+         restartButton.SetActive(false);
          GameManager.Instance.player.PlayerHealthChanged += OnPlayerHealthChanged; //decreaseHealth
-         GameManager.Instance.player.PlayerDied += OnPlayerDied; //invoke etmeyi unutma
+         GameManager.Instance.player.PlayerDied += OnPlayerDied; // player dead 
         //initial UI update 
         //UpdateHealthUI(GameManager.Instance.GetPlayerHealth());
         UpdateHealthUI(3);
@@ -65,9 +68,11 @@ public class UI_PlayerHealth_Controller : MonoBehaviour
                  heart_1.SetActive(false);
                  heart_2.SetActive(false);
                  heart_3.SetActive(false);
+                 ShowGameOverScreen();
+                 
                  break;
              default:
-                 Debug.LogError("Invalid health value: " + currentHealth);
+                 Debug.Log("Invalid health value: " + currentHealth);
                  break;
          }
      }
@@ -76,6 +81,10 @@ public class UI_PlayerHealth_Controller : MonoBehaviour
      private void ShowGameOverScreen()
      {
          //TODO game Over Screen
-         Debug.Log("Game Over");
+        restartButton.SetActive(true);
+        
+        
+        
      }
+     
 }
