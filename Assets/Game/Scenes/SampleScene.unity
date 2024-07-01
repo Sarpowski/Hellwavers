@@ -208,7 +208,7 @@ Transform:
   m_GameObject: {fileID: 128223243}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.295, z: 0}
+  m_LocalPosition: {x: 0, y: 1.295, z: 0.335}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2070,11 +2070,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tagToDetect: Enemy
-  allEnemies: []
-  closestEnemy: {fileID: 0}
+  detectionRange: 5
   projectilePrefab: {fileID: 2461325037140576980, guid: 659e519d50b99d842aee1ffb519a600a, type: 3}
   projectileSpawnPoint: {fileID: 128223244}
   shootingInterval: 1
+  allEnemies: []
 --- !u!114 &1566818049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2422,6 +2422,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 215325472652147741, guid: 659e519d50b99d842aee1ffb519a600a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 810473773713633036, guid: 659e519d50b99d842aee1ffb519a600a, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 810473773713633036, guid: 659e519d50b99d842aee1ffb519a600a, type: 3}
       propertyPath: m_Constraints
       value: 0
