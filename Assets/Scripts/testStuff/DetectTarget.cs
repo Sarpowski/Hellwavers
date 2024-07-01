@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class DetectTarget : MonoBehaviour
@@ -22,6 +23,11 @@ public class DetectTarget : MonoBehaviour
     
     void Update()
     {
+        if (            GameManager.Instance.player.isDead )
+        {
+            return;
+        }
+        
         closestEnemy = ClosestEnemy();
     
         if (closestEnemy != null)

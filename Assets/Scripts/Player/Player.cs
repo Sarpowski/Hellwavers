@@ -14,7 +14,7 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
     [SerializeField] private Score _score;
     
     //bak buna
-    private bool isDead = false;
+    public bool isDead { get; private set; } = false;
     public event Action<int> PlayerHealthChanged;
     public event Action PlayerDied;
     
@@ -124,8 +124,7 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
             
         }
         
-       
-
+    //animator ekle setBool ile
      
         
     }
