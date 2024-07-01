@@ -29,7 +29,7 @@ public class PlayerHealthController : MonoBehaviour , IDamageble<int>
         _currentHealth = _maxHealth;
         SetHealth?.Invoke(); //send health info to UI
     }
-
+    
     public int getHealth()
     {
         return _currentHealth;
@@ -42,6 +42,7 @@ public class PlayerHealthController : MonoBehaviour , IDamageble<int>
        return currentMaxVal > 0 ? currentMaxVal : _defaultHealth;
     }
 
+  
     public void TakeDamage(int damageAmount)
     {
        /*

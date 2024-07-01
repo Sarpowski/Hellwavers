@@ -9,12 +9,12 @@ using UnityEngine.Serialization;
 public class Player : MonoBehaviour , IKillable , IDamageble<int>
 {
     [SerializeField]  private CharacterMovementJoystick _movementJoystick;
-    [SerializeField] private PlayerHealthController   playerHealthController;
-    [SerializeField]private Animator _animator;
+    [SerializeField]  private PlayerHealthController   playerHealthController;
+    [SerializeField]  private Animator _animator;
+    [SerializeField] private Score _score;
     
     //bak buna
-     private bool isDead = false;
-    
+    private bool isDead = false;
     public event Action<int> PlayerHealthChanged;
     public event Action PlayerDied;
     
@@ -108,6 +108,7 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
         }
 
         Rigidbody rb = GetComponent<Rigidbody>();
+       
         if (rb != null)
         {
             rb.velocity = Vector3.zero;
@@ -118,6 +119,7 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
         Collider collider = GetComponent<Collider>();
         if (collider != null)
         {
+            
             collider.enabled = false;
             
         }

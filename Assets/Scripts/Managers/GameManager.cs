@@ -7,8 +7,9 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager Instance;
+    public EnemyAi enemyAi;
     public Player player;
-
+    public Score score;
     public PlayerHealthController health;
     //test
    [SerializeField] public SceneHandler scene;

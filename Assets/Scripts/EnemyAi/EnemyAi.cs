@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,11 +9,14 @@ public class EnemyAi : MonoBehaviour
     public Transform player;
     private NavMeshAgent agent;
     
+
+    public static event Action OnEnemyDeath;
     
     [SerializeField] public int _health;
     // Start is called before the first frame update
     void Start()
-    {
+    {   
+        
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -28,8 +32,15 @@ public class EnemyAi : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("enemy got hitted by player");
-            Destroy(gameObject); 
- 
+            Die();
+
         }
+    }
+
+    private void Die()
+    {
+        OnEnemyDeath?.Invoke();
+        
+        Destroy(gameObject);
     }
 }
