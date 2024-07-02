@@ -15,18 +15,20 @@ public class DetectTarget : MonoBehaviour
     public float detectionRadius = 10f;
     
     private float shootTimer;
-    
-    void Start()
-    {
-        allEnemies = GameObject.FindGameObjectsWithTag(tagToDetect);
-    }
-    
+    //runtime da patliyor
+    // void Start() 
+    // {
+    //     allEnemies = GameObject.FindGameObjectsWithTag(tagToDetect);
+    // }
+    //runtime da bulamiyor
     void Update()
     {
-        if (            GameManager.Instance.player.isDead )
+        if (GameManager.Instance.player.isDead )
         {
             return;
         }
+        
+        allEnemies = GameObject.FindGameObjectsWithTag(tagToDetect);    
         
         closestEnemy = ClosestEnemy();
     

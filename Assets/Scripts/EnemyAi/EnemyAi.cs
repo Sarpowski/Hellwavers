@@ -8,7 +8,7 @@ public class EnemyAi : MonoBehaviour
     
     public Transform player;
     private NavMeshAgent agent;
-    
+    public Player player_Target;
 
     public static event Action OnEnemyDeath;
     
@@ -18,14 +18,27 @@ public class EnemyAi : MonoBehaviour
     {   
         
         agent = GetComponent<NavMeshAgent>();
+        
+        if (GameManager.Instance != null)
+        {
+            player_Target = GameManager.Instance.player;
+        }
+
+        if (player_Target != null)
+        {
+            player = player_Target.transform;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        agent.destination = player.position;
+        if (player != null)
+        {
+            agent.destination = player.position;
+        }
     }
-    
+
     public void OnCollisionEnter(Collision other)
     {
         
