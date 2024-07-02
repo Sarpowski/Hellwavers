@@ -877,9 +877,12 @@ MonoBehaviour:
   - {fileID: 599521620}
   - {fileID: 10770618}
   m_EnemyPrefab: {fileID: 8703128872626344665, guid: ae5685d66794abc499a530d084b5b137, type: 3}
-  spawnInterval: 2
-  maxEnemies: 50
+  spawnInterval: 1
+  enemiesPerWave: 5
   enemyCount: 0
+  difficultyMultiplier: 1.1
+  currentWave: 0
+  timeBetweenWaves: 5
 --- !u!4 &804969919
 Transform:
   m_ObjectHideFlags: 0
