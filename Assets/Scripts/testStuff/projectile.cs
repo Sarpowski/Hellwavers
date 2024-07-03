@@ -1,47 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    // public float speed = 10f;
-    // public float lifeTime = 5f;
-    // private Transform target;
-    //
-    // public void SetTarget(Transform target)
-    // {
-    //     this.target = target;
-    // }
-    //
-    // private void Start()
-    // {
-    //     Destroy(gameObject, lifeTime);
-    // }
-    //
-    // void Update()
-    // {
-    //     if (target != null)
-    //     {
-    //         Vector3 direction = (target.position - transform.position).normalized;
-    //         transform.position += direction * speed * Time.deltaTime;
-    //     }
-    //     else
-    //     {
-    //         Destroy(gameObject);
-    //     }
-    //     
-    // }
-    //
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.CompareTag("Enemy"))
-    //     {
-    //         // Add your logic here for what happens when the projectile hits the enemy
-    //         Destroy(gameObject); // Destroy the projectile
-    //         Destroy(other.gameObject); // Destroy the enemy
-    //     }
-    // }
+    public static event Action killedAnEnemy;
     public float speed = 10f;
     public float lifetime = 5f; // Projectile will be destroyed after this time
 
@@ -76,12 +41,13 @@ public class Projectile : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Projectile hit something: " + other.gameObject.name);
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") && other.gameObject.TryGetComponent<EnemyAi>(out var enemyAi))
         {
+            enemyAi.CollidedWithProjectile();
             // Add your logic here for what happens when the projectile hits the enemy
             Debug.Log("Projectile hit an enemy: " + other.gameObject.name);
+            //killedAnEnemy?.Invoke(); //fixed
             Destroy(gameObject); // Destroy the projectile
-            Destroy(other.gameObject); // Destroy the enemy
         }
     }
    

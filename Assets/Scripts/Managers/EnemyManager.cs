@@ -8,9 +8,9 @@ using Random = UnityEngine.Random;
 public class EnemyManager : MonoBehaviour
 {
     public Transform[] m_spawnPoints;
-    public GameObject m_EnemyPrefab;
+    public EnemyAi m_EnemyPrefab;
     
-    public float spawnInterval = 1f; // Time between enemy spawns within a wave
+    public float spawnInterval = 1f; 
     public int enemiesPerWave = 5;
     public int enemyCount = 0;
    
@@ -18,11 +18,13 @@ public class EnemyManager : MonoBehaviour
     public int currentWave = 0;
     public float timeBetweenWaves = 5f;
     private bool waveInProgress = false;
+    
     void Start()
     {
+        
         StartCoroutine(ManageWaves());
     }
-
+    //TODO will be converted to Update func  
     private IEnumerator ManageWaves()
     {
         while (true)
@@ -31,7 +33,7 @@ public class EnemyManager : MonoBehaviour
             {
                 waveInProgress = true;
                 yield return StartCoroutine(SpawnWave());
-                yield return new WaitForSeconds(timeBetweenWaves); // Wait between waves
+                yield return new WaitForSeconds(timeBetweenWaves);   
                 waveInProgress = false;
                 
             }
@@ -71,20 +73,20 @@ public class EnemyManager : MonoBehaviour
 
             if (spawnPoint != null)
             {
-                GameObject newEnemy = Instantiate(m_EnemyPrefab, spawnPoint.position, spawnPoint.rotation);
-                EnemyAi enemyAI = newEnemy.GetComponent<EnemyAi>();
+                var enemyAI = Instantiate(m_EnemyPrefab, spawnPoint.position, spawnPoint.rotation);
+                // EnemyAi enemyAI = newEnemy.GetComponent<EnemyAi>();
 
                 if (enemyAI != null)
                 {
                     enemyAI._health = Mathf.RoundToInt(enemyAI._health * Mathf.Pow(difficultyMultiplier, currentWave - 1));
-                    NavMeshAgent agent = newEnemy.GetComponent<NavMeshAgent>();
+                    NavMeshAgent agent = enemyAI.GetComponent<NavMeshAgent>();
                     if (agent != null)
                     {
                         agent.speed *= Mathf.Pow(difficultyMultiplier, currentWave - 1);
                     }
                 }
 
-                enemyCount++; // Increment the enemy counter
+                enemyCount++;
             }
         }
     }

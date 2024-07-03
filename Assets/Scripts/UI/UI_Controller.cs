@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,10 +12,12 @@ public class UI_Controller : MonoBehaviour
      public GameObject heart_1;
      public GameObject heart_2;
      public GameObject heart_3;
-
      public GameObject restartButton;
+
+     public ScoreController score_ui;
      //can be generic
    
+
      private void Start()
      {
          restartButton.SetActive(false);
@@ -46,6 +49,7 @@ public class UI_Controller : MonoBehaviour
      
      private void UpdateHealthUI(int currentHealth)
      {
+         
          Debug.Log("LOG FROM UI , Updating health UI to: " + currentHealth);
          switch (currentHealth)
          {

@@ -26,7 +26,7 @@ public class Score : MonoBehaviour
     public void initScore()
     {
         EarnedScore = 0;
-        Debug.Log("begining score "+EarnedScore);
+        Debug.Log("begining score "+ EarnedScore);
     }
 
     private void OnEnemyKilled()

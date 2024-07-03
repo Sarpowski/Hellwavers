@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
+[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAi : MonoBehaviour
 {
     
@@ -52,8 +54,14 @@ public class EnemyAi : MonoBehaviour
 
     private void Die()
     {
+        Debug.Log("enemyyyy dieeeeee invokeeeee");
         OnEnemyDeath?.Invoke();
         
         Destroy(gameObject);
+    }
+
+    public void CollidedWithProjectile()
+    {
+        Die();
     }
 }

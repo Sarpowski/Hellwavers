@@ -7,6 +7,7 @@ public class SceneHandler : MonoBehaviour
     
     public void RestartGame()
     {
+        //TODO load level 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     //Future Implementation for the Start Game logic 

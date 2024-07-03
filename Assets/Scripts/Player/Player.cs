@@ -46,6 +46,7 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
         {
             Debug.Log("H tusuna basildi");
             playerHealthController.TakeDamage(1);
+            
             Debug.Log(playerHealthController.getHealth());
         }
         //damage burda handle edilcek fonksiyon ile
