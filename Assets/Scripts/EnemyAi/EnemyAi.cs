@@ -11,8 +11,10 @@ public class EnemyAi : MonoBehaviour
     public Transform player;
     private NavMeshAgent agent;
     public Player player_Target;
-
+    public Animator animator; 
     public static event Action OnEnemyDeath;
+    
+    public bool isDead { get; private set; } = false;
     
     [SerializeField] public int _health;
     // Start is called before the first frame update
@@ -51,15 +53,29 @@ public class EnemyAi : MonoBehaviour
 
         }
     }
-
+    //enemyStat manager could be 
     private void Die()
     {
-        Debug.Log("enemyyyy dieeeeee invokeeeee");
+        Debug.Log("Enemy DIE from EnemyAI debug");
         OnEnemyDeath?.Invoke();
+        gameObject.tag = "DiedEnemy";
+        isDead = true;
+        gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        gameObject.GetComponent<EnemyAi>().enabled = false;
+        animator.enabled = false;
         
-        Destroy(gameObject);
+        //TODO wait 10sec and destroy the object 
+        //Destroy(gameObject);
+        
+        StartCoroutine(DestroyAfterDelay(10f));
     }
 
+    private IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
+            
+    }
     public void CollidedWithProjectile()
     {
         Die();

@@ -13,6 +13,7 @@ public class Projectile : MonoBehaviour
     private Transform target;
     private float timeAlive;
 
+    
     public void SetTarget(Transform target)
     {
         this.target = target;
@@ -52,3 +53,4 @@ public class Projectile : MonoBehaviour
     }
    
 }
+

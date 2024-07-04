@@ -69,7 +69,7 @@ public class EnemyManager : MonoBehaviour
         if (m_EnemyPrefab != null && m_spawnPoints != null && m_spawnPoints.Length > 0)
         {
             int randomIndex = Random.Range(0, m_spawnPoints.Length);
-            Transform spawnPoint = m_spawnPoints[randomIndex];
+            Transform spawnPoint = m_spawnPoints[randomIndex % m_spawnPoints.Length];
 
             if (spawnPoint != null)
             {
