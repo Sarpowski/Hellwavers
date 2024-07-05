@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public Player player;
     public Score score;
     public PlayerHealthController health;
+
+    public SceneHandler sceneControl;
     //test
    [SerializeField] public SceneHandler scene;
     private void Awake()

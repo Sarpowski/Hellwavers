@@ -17,13 +17,21 @@ public class EnemyManager : MonoBehaviour
     public float difficultyMultiplier = 1.1f;
     public int currentWave = 0;
     public float timeBetweenWaves = 5f;
-    private bool waveInProgress = false;
+    private  bool waveInProgress = false;
     
     void Start()
     {
         
         StartCoroutine(ManageWaves());
+        GameManager.Instance.player.PlayerDied += OnPlayerDied;
     }
+
+    private void OnPlayerDied()
+    {
+        waveInProgress = false;
+        StopAllCoroutines();
+    }
+
     //TODO will be converted to Update func  
     private IEnumerator ManageWaves()
     {

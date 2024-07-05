@@ -31,9 +31,11 @@ public class EnemyAi : MonoBehaviour
         if (player_Target != null)
         {
             player = player_Target.transform;
+            player_Target.PlayerDied += OnPlayerDied;
         }
     }
 
+   
     // Update is called once per frame
     void Update()
     {
@@ -80,4 +82,12 @@ public class EnemyAi : MonoBehaviour
     {
         Die();
     }
+    private void OnPlayerDied()
+    {
+        if (agent.isOnNavMesh)
+        {
+            agent.isStopped= true;
+        }
+    }
+
 }

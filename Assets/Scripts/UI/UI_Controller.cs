@@ -13,7 +13,7 @@ public class UI_Controller : MonoBehaviour
      public GameObject heart_2;
      public GameObject heart_3;
      public GameObject restartButton;
-
+     public GameObject menuButton;
      public ScoreController score_ui;
      //can be generic
    
@@ -21,6 +21,7 @@ public class UI_Controller : MonoBehaviour
      private void Start()
      {
          restartButton.SetActive(false);
+         menuButton.SetActive(false);
          GameManager.Instance.player.PlayerHealthChanged += OnPlayerHealthChanged; //decreaseHealth
          GameManager.Instance.player.PlayerDied += OnPlayerDied; // player dead 
         //initial UI update 
@@ -81,12 +82,12 @@ public class UI_Controller : MonoBehaviour
          }
      }
 
-
+    
      private void ShowGameOverScreen()
      {
          //TODO game Over Screen
         restartButton.SetActive(true);
-        
+        menuButton.SetActive(true);
         
         
      }

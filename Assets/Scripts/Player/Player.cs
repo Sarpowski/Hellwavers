@@ -66,6 +66,7 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
     {
         // TODO
         // durumlari ekle
+        _animator.enabled = false;
         // controlleri birakcaz 
         Debug.Log("Event in Dead den haberi var");
         Debug.Log("isDEAD from method PlayerHealthControllerOnHealthZero() " + isDead);
@@ -124,10 +125,11 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
             collider.enabled = false;
             
         }
+
         
-    //animator ekle setBool ile
-     
-        
+        //animator ekle setBool ile
+
+
     }
     
     public void TakeDamage(int damageAmount)

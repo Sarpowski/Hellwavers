@@ -11,8 +11,8 @@ public class SceneHandler : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     //Future Implementation for the Start Game logic 
-    public void StartGame()
+    public void MenuGame()
     {
-        
+        SceneManager.LoadScene("Main Menu");
     }
 }

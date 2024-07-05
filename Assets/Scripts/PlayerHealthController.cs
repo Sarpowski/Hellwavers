@@ -45,14 +45,7 @@ public class PlayerHealthController : MonoBehaviour , IDamageble<int>
   
     public void TakeDamage(int damageAmount)
     {
-       /*
-        if (_currentHealth <= 0)
-        {
-            Debug.LogError("_currentHealth is not initialized.");
-            //bisiler olmali  
-            return;
-        }
-        */
+      
        
         _currentHealth -= damageAmount;
         DecreaseHealth?.Invoke(_currentHealth);
