@@ -128,7 +128,7 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
 
         
         //animator ekle setBool ile
-
+        _animator.enabled = false;
 
     }
     
