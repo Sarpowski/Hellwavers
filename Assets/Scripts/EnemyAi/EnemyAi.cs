@@ -60,6 +60,8 @@ public class EnemyAi : MonoBehaviour
     {
         Debug.Log("Enemy DIE from EnemyAI debug");
         OnEnemyDeath?.Invoke();
+        player_Target.PlayerDied -= OnPlayerDied;
+
         gameObject.tag = "DiedEnemy";
         isDead = true;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
