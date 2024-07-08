@@ -71,31 +71,63 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-
     private void SpawnNewEnemy()
     {
         if (m_EnemyPrefab != null && m_spawnPoints != null && m_spawnPoints.Length > 0)
         {
             int randomIndex = Random.Range(0, m_spawnPoints.Length);
             Transform spawnPoint = m_spawnPoints[randomIndex % m_spawnPoints.Length];
-
-            if (spawnPoint != null)
+            var enemyAi = EnemyObjectPool.SharedInstance.GetPooledObject();
+            if (enemyAi != null)
             {
-                var enemyAI = Instantiate(m_EnemyPrefab, spawnPoint.position, spawnPoint.rotation);
-                // EnemyAi enemyAI = newEnemy.GetComponent<EnemyAi>();
+                enemyAi.transform.position = spawnPoint.position;
+                enemyAi.transform.rotation = spawnPoint.rotation;
+                enemyAi.SetActive(true);
 
-                if (enemyAI != null)
+                EnemyAi enemyAiComponent = enemyAi.GetComponent<EnemyAi>();
+                if (enemyAiComponent != null)
                 {
-                    enemyAI._health = Mathf.RoundToInt(enemyAI._health * Mathf.Pow(difficultyMultiplier, currentWave - 1));
-                    NavMeshAgent agent = enemyAI.GetComponent<NavMeshAgent>();
+                    enemyAiComponent.ResetEnemy();
+                    enemyAiComponent._health = Mathf.RoundToInt(enemyAiComponent._health * Mathf.Pow(difficultyMultiplier, currentWave - 1));
+                }
+                
+                NavMeshAgent agent = enemyAiComponent.GetComponent<NavMeshAgent>();
                     if (agent != null)
                     {
                         agent.speed *= Mathf.Pow(difficultyMultiplier, currentWave - 1);
                     }
-                }
-
-                enemyCount++;
             }
+                
+            enemyCount++;
         }
     }
 }
+    //
+    // private void SpawnNewEnemy()
+    // {
+    //     if (m_EnemyPrefab != null && m_spawnPoints != null && m_spawnPoints.Length > 0)
+    //     {
+    //         int randomIndex = Random.Range(0, m_spawnPoints.Length);
+    //         Transform spawnPoint = m_spawnPoints[randomIndex % m_spawnPoints.Length];
+    //
+    //         if (spawnPoint != null)
+    //         {
+    //             var enemyAI = Instantiate(m_EnemyPrefab, spawnPoint.position, spawnPoint.rotation);
+    //             // EnemyAi enemyAI = newEnemy.GetComponent<EnemyAi>();
+    //             
+    //             if (enemyAI != null)
+    //             {
+    //                 enemyAI._health = Mathf.RoundToInt(enemyAI._health * Mathf.Pow(difficultyMultiplier, currentWave - 1));
+    //                 NavMeshAgent agent = enemyAI.GetComponent<NavMeshAgent>();
+    //                 if (agent != null)
+    //                 {
+    //                     agent.speed *= Mathf.Pow(difficultyMultiplier, currentWave - 1);
+    //                 }
+    //             }
+    //
+    //             enemyCount++;
+    //         }
+    //     }
+    //    }
+    // }
+

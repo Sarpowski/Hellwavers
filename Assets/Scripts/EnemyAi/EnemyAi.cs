@@ -77,7 +77,8 @@ public class EnemyAi : MonoBehaviour
     private IEnumerator DestroyAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        // Destroy(gameObject);
             
     }
     public void CollidedWithProjectile()
@@ -92,4 +93,57 @@ public class EnemyAi : MonoBehaviour
         }
     }
 
+    public void ResetEnemy()
+    {
+        isDead = false;
+        gameObject.tag = "Enemy";
+        CapsuleCollider collider = gameObject.GetComponent<CapsuleCollider>();
+        if (collider != null)
+        {
+            collider.enabled = true;
+        }
+        else
+        {
+            Debug.LogError("CapsuleCollider is missing");
+        }
+
+        EnemyAi enemyAiComponent = gameObject.GetComponent<EnemyAi>();
+        if (enemyAiComponent != null)
+        {
+            enemyAiComponent.enabled = true;
+        }
+        else
+        {
+            Debug.LogError("EnemyAi component is missing");
+        }
+
+        if (animator != null)
+        {
+            animator.enabled = true;
+        }
+        else
+        {
+            Debug.LogError("Animator is missing");
+        }
+
+        agent = gameObject.GetComponent<NavMeshAgent>();
+        if (agent != null)
+        {
+            agent.isStopped = false;
+        }
+        else
+        {
+            Debug.LogError("NavMeshAgent is missing");
+        }
+
+        if (player_Target != null)
+        {
+            player = player_Target.transform;
+            player_Target.PlayerDied += OnPlayerDied;
+        }
+        else
+        {
+            Debug.Log("Player target is missing.");
+        }
+    }
 }

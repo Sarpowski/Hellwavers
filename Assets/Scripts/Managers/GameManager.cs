@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public Player player;
     public Score score;
     public PlayerHealthController health;
-
+    public EnemyObjectPool enemyPool;
     public SceneHandler sceneControl;
     //test
    [SerializeField] public SceneHandler scene;
