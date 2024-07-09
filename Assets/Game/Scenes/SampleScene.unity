@@ -1040,8 +1040,8 @@ MonoBehaviour:
   - {fileID: 599521620}
   - {fileID: 10770618}
   m_EnemyPrefab: {fileID: 1764202068941152430, guid: 67dc11f345e747e47bee45ea1e51bfa9, type: 3}
-  spawnInterval: 1
-  enemiesPerWave: 10
+  spawnInterval: 2
+  enemiesPerWave: 20
   enemyCount: 0
   difficultyMultiplier: 1.1
   currentWave: 0
@@ -2241,6 +2241,7 @@ GameObject:
   - component: {fileID: 1319053944}
   - component: {fileID: 1319053943}
   - component: {fileID: 1319053945}
+  - component: {fileID: 1319053946}
   m_Layer: 0
   m_Name: Game System Controller
   m_TagString: Untagged
@@ -2295,6 +2296,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   killScore: 0
   uiScreenText: {fileID: 1708194288}
+--- !u!114 &1319053946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319053942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef45d7bfa160ff34c829e78cc1f3649f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _EnemyPrefab: {fileID: 2072085982650409865, guid: 67dc11f345e747e47bee45ea1e51bfa9, type: 3}
+  _amountOfEnemyPrefab: 20
 --- !u!1 &1376094503 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5149958356425131989, guid: bb884ca53fa14c6439ddd11b666faa88, type: 3}
@@ -2864,6 +2879,7 @@ MonoBehaviour:
   player: {fileID: 1566818045}
   score: {fileID: 0}
   health: {fileID: 0}
+  enemyPool: {fileID: 0}
   sceneControl: {fileID: 0}
   scene: {fileID: 1657713276}
 --- !u!1 &1657713275

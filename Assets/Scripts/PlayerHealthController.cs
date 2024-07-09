@@ -14,9 +14,9 @@ public class PlayerHealthController : MonoBehaviour , IDamageble<int>
     public event Action  HealthZero;
 
     public event Action SetHealth; //ui icin
-
     public event Action<int> DecreaseHealth; //ui icin
-   
+
+    public event Action LastHearth; // stupid naming
     //start
     private void Start()
     {
@@ -49,7 +49,10 @@ public class PlayerHealthController : MonoBehaviour , IDamageble<int>
        
         _currentHealth -= damageAmount;
         DecreaseHealth?.Invoke(_currentHealth);
-      
+        if (_currentHealth == 1)
+        {
+            LastHearth?.Invoke();
+        }
         
         if (_currentHealth <= _minHealth) //fix minik bir logic bug var gibi
         {

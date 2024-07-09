@@ -53,8 +53,8 @@ public class EnemyManager : MonoBehaviour
     {
         currentWave++;
         Debug.Log("current wave " + currentWave);
-        int enemiesToSpawn = Mathf.RoundToInt(enemiesPerWave * Mathf.Pow(difficultyMultiplier, currentWave - 1));
-
+        //int enemiesToSpawn = Mathf.RoundToInt(enemiesPerWave * Mathf.Pow(difficultyMultiplier, currentWave - 1));
+        int enemiesToSpawn = 20;
         for (int i = 0; i < enemiesToSpawn; i++)
         {
             SpawnNewEnemy();
@@ -75,7 +75,11 @@ public class EnemyManager : MonoBehaviour
     {
         if (m_EnemyPrefab != null && m_spawnPoints != null && m_spawnPoints.Length > 0)
         {
+            Debug.Log("Spawn points length: " + m_spawnPoints.Length);//
             int randomIndex = Random.Range(0, m_spawnPoints.Length);
+            Debug.Log("Random index: " + randomIndex);//
+            
+            EnemyObjectPool.SharedInstance.CreateEnemyAtFirstStart();
             Transform spawnPoint = m_spawnPoints[randomIndex % m_spawnPoints.Length];
             var enemyAi = EnemyObjectPool.SharedInstance.GetPooledObject();
             if (enemyAi != null)
@@ -99,6 +103,10 @@ public class EnemyManager : MonoBehaviour
             }
                 
             enemyCount++;
+        }
+        else
+        {
+            Debug.Log("Spawn points array is null or empty.");
         }
     }
 }

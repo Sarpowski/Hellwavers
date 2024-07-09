@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public PlayerHealthController health;
     public EnemyObjectPool enemyPool;
     public SceneHandler sceneControl;
+
     //test
    [SerializeField] public SceneHandler scene;
     private void Awake()

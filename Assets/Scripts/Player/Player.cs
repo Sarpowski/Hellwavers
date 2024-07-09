@@ -24,7 +24,8 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
         isDead = false;
         _movementJoystick = GetComponent<CharacterMovementJoystick>();
         playerHealthController = GetComponent<PlayerHealthController>();
-        
+       
+
         
        
         if (playerHealthController == null)
@@ -37,6 +38,7 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
         playerHealthController.initHealth();
         playerHealthController.DecreaseHealth += PlayerHealthControllerOnTakeDamage;
         playerHealthController.HealthZero += PlayerHealthControllerOnHealthZero;
+        playerHealthController.LastHearth += BeforeDieMusic;
     }
     void Update()
     {
@@ -49,7 +51,7 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
             
             Debug.Log(playerHealthController.getHealth());
         }
-        //damage burda handle edilcek fonksiyon ile
+        //test
     }
     
     void FixedUpdate()
@@ -61,6 +63,7 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
         } 
         // Movement logic
         _movementJoystick.Move();
+
     }
     private void PlayerHealthControllerOnHealthZero()
     {
@@ -75,19 +78,17 @@ public class Player : MonoBehaviour , IKillable , IDamageble<int>
         //buraya karakter olunce health sisteminin pek onemli olmadigi ile ilgili bir sey yazmak lazim
 
     }
-    
+
+    private void BeforeDieMusic()
+    {
+        AudioManager.Instance.PlayMusic("TEST_DIE");
+    }
     private void PlayerHealthControllerOnTakeDamage(int currentHealth)
     {
         PlayerHealthChanged?.Invoke(currentHealth);
         
     }
    
-    /*
-    public void Die()
-    {
-        PlayerDied?.Invoke();
-    }    
-    */
     
     
     //bu fantastik methodu SOR
