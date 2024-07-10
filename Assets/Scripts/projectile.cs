@@ -31,7 +31,7 @@ public class Projectile : MonoBehaviour
         }
         else if (timeAlive < lifetime)
         {
-            // Move forward if no target (optional, depending on your game design)
+           
             transform.position += transform.forward * (speed * Time.deltaTime);
         }
     }
@@ -42,7 +42,7 @@ public class Projectile : MonoBehaviour
         if (other.CompareTag("Enemy") && other.gameObject.TryGetComponent<EnemyAi>(out var enemyAi))
         {
             enemyAi.CollidedWithProjectile();
-            // Add your logic here for what happens when the projectile hits the enemy
+           
             Debug.Log("Projectile hit an enemy: " + other.gameObject.name);
             //killedAnEnemy?.Invoke(); //fixed
             Destroy(gameObject); // Destroy the projectile

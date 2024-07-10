@@ -53,7 +53,6 @@ public class EnemyManager : MonoBehaviour
     {
         currentWave++;
         Debug.Log("current wave " + currentWave);
-        //int enemiesToSpawn = Mathf.RoundToInt(enemiesPerWave * Mathf.Pow(difficultyMultiplier, currentWave - 1));
         int enemiesToSpawn = 20;
         for (int i = 0; i < enemiesToSpawn; i++)
         {
@@ -110,32 +109,4 @@ public class EnemyManager : MonoBehaviour
         }
     }
 }
-    //
-    // private void SpawnNewEnemy()
-    // {
-    //     if (m_EnemyPrefab != null && m_spawnPoints != null && m_spawnPoints.Length > 0)
-    //     {
-    //         int randomIndex = Random.Range(0, m_spawnPoints.Length);
-    //         Transform spawnPoint = m_spawnPoints[randomIndex % m_spawnPoints.Length];
-    //
-    //         if (spawnPoint != null)
-    //         {
-    //             var enemyAI = Instantiate(m_EnemyPrefab, spawnPoint.position, spawnPoint.rotation);
-    //             // EnemyAi enemyAI = newEnemy.GetComponent<EnemyAi>();
-    //             
-    //             if (enemyAI != null)
-    //             {
-    //                 enemyAI._health = Mathf.RoundToInt(enemyAI._health * Mathf.Pow(difficultyMultiplier, currentWave - 1));
-    //                 NavMeshAgent agent = enemyAI.GetComponent<NavMeshAgent>();
-    //                 if (agent != null)
-    //                 {
-    //                     agent.speed *= Mathf.Pow(difficultyMultiplier, currentWave - 1);
-    //                 }
-    //             }
-    //
-    //             enemyCount++;
-    //         }
-    //     }
-    //    }
-    // }
-
+   

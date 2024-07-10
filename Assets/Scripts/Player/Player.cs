@@ -13,7 +13,7 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
     [SerializeField] private Animator _animator;
     [SerializeField] private Score _score;
 
-    //bak buna
+    
     public bool isDead { get; private set; } = false;
     public event Action<int> PlayerHealthChanged;
     public event Action PlayerDied;
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
 
         if (playerHealthController == null)
         {
-            Debug.LogError("PlayerHealthController component is missing on the Player object.");
+            Debug.LogError("PlayerHealthController component  missing on the Player.");
             return;
         }
 
@@ -40,7 +40,7 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
     {
         if (Input.GetKeyDown(KeyCode.H))
         {
-            Debug.Log("H tusuna basildi");
+            Debug.Log("H button is pressed");
             playerHealthController.TakeDamage(1);
 
             Debug.Log(playerHealthController.getHealth());
@@ -80,16 +80,11 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
     }
 
 
-    //bu fantastik methodu SOR
 
     public void Die()
     {
-        // TODO
-        // durumlari ekle
         _animator.enabled = false;
-        // controlleri birakcaz 
-        Debug.Log("Event in Dead den haberi var");
-        Debug.Log("isDEAD from method PlayerHealthControllerOnHealthZero() " + isDead);
+       
 
         if (isDead)
         {
@@ -121,7 +116,6 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
         }
 
 
-        //animator ekle setBool ile
         _animator.enabled = false;
     }
 

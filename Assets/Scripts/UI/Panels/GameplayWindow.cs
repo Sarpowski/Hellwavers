@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameplayWindow : MonoBehaviour
@@ -11,7 +12,6 @@ public class GameplayWindow : MonoBehaviour
     public void Initialize(int currentHealth)
     {
         healthPanel.Initialize(currentHealth);
-        
         
         restartButton.SetActive(false);
         menuButton.SetActive(false);

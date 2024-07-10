@@ -22,8 +22,6 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             
-            //Sor ogren niye
-            
             //DontDestroyOnLoad(gameObject);
         }
         else

@@ -60,11 +60,11 @@ public class EnemyObjectPool : MonoBehaviour
       {
          if (!_pooledEnemy[i].activeInHierarchy)
          {
-            Debug.Log($"Returning pooled enemy at index {i}.");
+           
             return _pooledEnemy[i];
          }
       }
-      Debug.LogWarning("No inactive enemy found in the pool.");
+      
       return null;
    }
    private void PrintPoolState()
