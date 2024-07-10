@@ -4,19 +4,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerHealthController : MonoBehaviour , IDamageble<int>
+public class PlayerHealthController : MonoBehaviour, IDamageble<int>
 {
     [SerializeField] private int _maxHealth = 3;
     [SerializeField] private int _minHealth;
-    [SerializeField] private int _currentHealth=3; 
+    [SerializeField] private int _currentHealth = 3;
     private int _defaultHealth = 3;
-    
-    public event Action  HealthZero;
 
-    public event Action SetHealth; //ui icin
-    public event Action<int> DecreaseHealth; //ui icin
+    public event Action<int> HealthChanged; //ui icin
 
-    public event Action LastHearth; // stupid naming
     //start
     private void Start()
     {
@@ -25,43 +21,25 @@ public class PlayerHealthController : MonoBehaviour , IDamageble<int>
 
     public void initHealth()
     {
-        _maxHealth = setDefaultHealth(_maxHealth);
+        _maxHealth = SetDefaultHealth(_maxHealth);
         _currentHealth = _maxHealth;
-        SetHealth?.Invoke(); //send health info to UI
     }
-    
+
     public int getHealth()
     {
         return _currentHealth;
     }
-    
-    
-    private int setDefaultHealth(int currentMaxVal)
+
+
+    private int SetDefaultHealth(int currentMaxVal)
     {
-       
-       return currentMaxVal > 0 ? currentMaxVal : _defaultHealth;
+        return currentMaxVal > 0 ? currentMaxVal : _defaultHealth;
     }
 
-  
     public void TakeDamage(int damageAmount)
     {
-      
-       
         _currentHealth -= damageAmount;
-        DecreaseHealth?.Invoke(_currentHealth);
-        if (_currentHealth == 1)
-        {
-            LastHearth?.Invoke();
-        }
-        
-        if (_currentHealth <= _minHealth) //fix minik bir logic bug var gibi
-        {
-            HealthZero?.Invoke();
-            // Debug.Log("dead");
-          
-        }
-    }
-    
 
-    
+        HealthChanged?.Invoke(_currentHealth);
+    }
 }

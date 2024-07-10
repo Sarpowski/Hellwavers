@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -13,7 +10,7 @@ public class Projectile : MonoBehaviour
     private Transform target;
     private float timeAlive;
 
-    
+
     public void SetTarget(Transform target)
     {
         this.target = target;
@@ -27,15 +24,15 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (target != null)
+        if (target)
         {
             Vector3 direction = (target.position - transform.position).normalized;
-            transform.position += direction * speed * Time.deltaTime;
+            transform.position += direction * (speed * Time.deltaTime);
         }
         else if (timeAlive < lifetime)
         {
             // Move forward if no target (optional, depending on your game design)
-            transform.position += transform.forward * speed * Time.deltaTime;
+            transform.position += transform.forward * (speed * Time.deltaTime);
         }
     }
 
@@ -51,6 +48,4 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject); // Destroy the projectile
         }
     }
-   
 }
-
