@@ -19,10 +19,10 @@ public class Projectile : MonoBehaviour
     void Update()
     {
         timeAlive += Time.deltaTime;
-        if (timeAlive >= lifetime)
-        {
-            Destroy(gameObject);
-        }
+        // if (timeAlive >= lifetime)
+        // {
+        //     Destroy(gameObject);
+        // }
 
         if (target)
         {
@@ -45,7 +45,7 @@ public class Projectile : MonoBehaviour
            
             Debug.Log("Projectile hit an enemy: " + other.gameObject.name);
             //killedAnEnemy?.Invoke(); //fixed
-            Destroy(gameObject); // Destroy the projectile
+           // Destroy(gameObject); // Destroy the projectile
         }
     }
 }

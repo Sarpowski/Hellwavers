@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
-
+using UnityEngine.Pool;
 public class DetectTarget : MonoBehaviour
 {
     public string tagToDetect = "Enemy";
@@ -15,14 +16,46 @@ public class DetectTarget : MonoBehaviour
     public float detectionRadius = 10f;
     
     private float shootTimer;
-   
-    void Update()
+    [SerializeField] private int bulletAmount = 10;
+    private Queue<GameObject> _bulletPool = new Queue<GameObject>();
+    private GameObject _bulletInstantiate;
+    private void Start()
     {
-        if (GameManager.Instance.player.isDead )
+        CreateBulletsAtFirst();
+    }
+
+    private void CreateBulletsAtFirst()
+    {
+        for (int i = 0; i < bulletAmount; i++)
         {
-            return;
+            _bulletInstantiate = Instantiate(projectilePrefab);
+            _bulletInstantiate.SetActive(false);
+            _bulletPool.Enqueue(_bulletInstantiate);
         }
         
+    }
+
+    private GameObject GetBulletFromPool()
+    {
+        foreach (GameObject bullet in _bulletPool)
+        {
+            if (!bullet.activeInHierarchy)
+            {
+                return bullet;
+            }
+            
+        }
+
+        return null;
+    }
+
+    void Update()
+    {
+        // if (GameManager.Instance.player.isDead )
+        // {
+        //     return;
+        // }
+        //
         allEnemies = GameObject.FindGameObjectsWithTag(tagToDetect);    
         
         closestEnemy = ClosestEnemy();
@@ -65,8 +98,17 @@ public class DetectTarget : MonoBehaviour
     {
         if (closestEnemy != null && projectilePrefab != null && shootPoint != null)
         {
-            GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
-            Projectile projScript = projectile.GetComponent<Projectile>();
+            //TODO ObjectPool
+            // GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
+             
+            _bulletInstantiate = GetBulletFromPool();
+            if (_bulletInstantiate != null)
+            {
+                _bulletInstantiate.transform.position = shootPoint.transform.position;
+                _bulletInstantiate.SetActive(true);
+                StartCoroutine(FalseBulletGameObject(_bulletInstantiate));
+            }
+            Projectile projScript = _bulletInstantiate.GetComponent<Projectile>();
             
             if (projScript != null)
             {
@@ -74,6 +116,14 @@ public class DetectTarget : MonoBehaviour
             }
         }
     }
+
+    IEnumerator FalseBulletGameObject(GameObject bullet)
+    {
+        yield return new WaitForSeconds(1f);
+        bullet.SetActive(false);
+        _bulletPool.Enqueue(bullet);
+    }
+
     void OnDrawGizmos()
     {
         // Draw a yellow sphere at the transform's position to visualize the detection radius
