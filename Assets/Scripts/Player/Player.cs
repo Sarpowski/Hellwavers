@@ -109,11 +109,11 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
             rb.angularVelocity = Vector3.zero;
         }
 
-        Collider collider = GetComponent<Collider>();
-        if (collider != null)
-        {
-            collider.enabled = false;
-        }
+        // Collider collider = GetComponent<Collider>();
+        // if (collider != null)
+        // {
+        //     collider.enabled = false;
+        // }
 
 
         _animator.enabled = false;

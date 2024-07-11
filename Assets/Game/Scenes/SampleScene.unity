@@ -1363,7 +1363,7 @@ GameObject:
   - component: {fileID: 812017787}
   - component: {fileID: 812017786}
   - component: {fileID: 812017785}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TestGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3185,6 +3185,7 @@ MonoBehaviour:
   health: {fileID: 0}
   enemyPool: {fileID: 0}
   sceneControl: {fileID: 0}
+  detectTarget: {fileID: 0}
   scene: {fileID: 1657713276}
 --- !u!1 &1657713275
 GameObject:
@@ -3966,6 +3967,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: player
       objectReference: {fileID: 0}
+    - target: {fileID: 4047636142486987426, guid: bb884ca53fa14c6439ddd11b666faa88, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4120901924795944970, guid: bb884ca53fa14c6439ddd11b666faa88, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -4087,6 +4092,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8659859164669305718, guid: bb884ca53fa14c6439ddd11b666faa88, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8768765955584114640, guid: bb884ca53fa14c6439ddd11b666faa88, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}

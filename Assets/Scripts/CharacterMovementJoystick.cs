@@ -10,7 +10,6 @@ public class CharacterMovementJoystick : MonoBehaviour
    [SerializeField] private Animator _animator;
    [SerializeField] private float _moveSpeed= 2.0f;
    [SerializeField] private float _rotationSpeed = 10.0f;  // Added for smooth rotation
- 
  public void Move()
  {
      
