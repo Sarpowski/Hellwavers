@@ -61,9 +61,15 @@ public class EnemyAi : MonoBehaviour
         player_Target.PlayerDied -= OnPlayerDied;
 
         gameObject.tag = "DiedEnemy";
+        int noCollisonLayer = 8;
+        agent.enabled = false;
+        // gameObject.layer = noCollisonLayer;
+        SetLayerRecursively(gameObject, noCollisonLayer);
+        
         isDead = true;
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
         gameObject.GetComponent<EnemyAi>().enabled = false;
+        
         animator.enabled = false;
         
         //Destroy(gameObject);
@@ -94,6 +100,7 @@ public class EnemyAi : MonoBehaviour
     {
         isDead = false;
         gameObject.tag = "Enemy";
+        SetLayerRecursively(gameObject, 0);
         CapsuleCollider collider = gameObject.GetComponent<CapsuleCollider>();
         if (collider != null)
         {
@@ -126,6 +133,7 @@ public class EnemyAi : MonoBehaviour
         agent = gameObject.GetComponent<NavMeshAgent>();
         if (agent != null)
         {
+            agent.enabled = true;
             agent.isStopped = false;
         }
         else
@@ -141,6 +149,23 @@ public class EnemyAi : MonoBehaviour
         else
         {
             Debug.Log("Player target is missing.");
+        }
+    }
+
+    void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        if (obj == null)
+        {
+            return;
+        }
+        obj.layer = newLayer;
+        foreach (Transform child in obj.transform)
+        {
+            if (child == null)
+            {
+                continue;
+            }
+            SetLayerRecursively(child.gameObject, newLayer);
         }
     }
 }
