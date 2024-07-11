@@ -16,12 +16,35 @@ public class DetectTarget : MonoBehaviour
     public float detectionRadius = 10f;
     
     private float shootTimer;
-    [SerializeField] private int bulletAmount = 10;
+    [SerializeField] private int bulletAmount = 3;
     private Queue<GameObject> _bulletPool = new Queue<GameObject>();
     private GameObject _bulletInstantiate;
+  
     private void Start()
     {
         CreateBulletsAtFirst();
+    }
+
+    void Update()
+    {
+        if (GameManager.Instance.player.isDead )
+        {
+            return;
+        }
+        
+        allEnemies = GameObject.FindGameObjectsWithTag(tagToDetect);    
+        
+        closestEnemy = ClosestEnemy();
+    
+        if (closestEnemy != null)
+        {
+            shootTimer += Time.deltaTime;
+            if (shootTimer >= shootInterval)
+            {
+                ShootProjectile();
+                shootTimer = 0f;
+            }
+        }
     }
 
     private void CreateBulletsAtFirst()
@@ -49,27 +72,7 @@ public class DetectTarget : MonoBehaviour
         return null;
     }
 
-    void Update()
-    {
-        // if (GameManager.Instance.player.isDead )
-        // {
-        //     return;
-        // }
-        //
-        allEnemies = GameObject.FindGameObjectsWithTag(tagToDetect);    
-        
-        closestEnemy = ClosestEnemy();
     
-        if (closestEnemy != null)
-        {
-            shootTimer += Time.deltaTime;
-            if (shootTimer >= shootInterval)
-            {
-                ShootProjectile();
-                shootTimer = 0f;
-            }
-        }
-    }
     
     GameObject ClosestEnemy()
     {
@@ -106,7 +109,7 @@ public class DetectTarget : MonoBehaviour
             {
                 _bulletInstantiate.transform.position = shootPoint.transform.position;
                 _bulletInstantiate.SetActive(true);
-                StartCoroutine(FalseBulletGameObject(_bulletInstantiate));
+              //  StartCoroutine(FalseBulletGameObject(_bulletInstantiate));
             }
             Projectile projScript = _bulletInstantiate.GetComponent<Projectile>();
             
@@ -117,9 +120,10 @@ public class DetectTarget : MonoBehaviour
         }
     }
 
+  
     IEnumerator FalseBulletGameObject(GameObject bullet)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.8f);
         bullet.SetActive(false);
         _bulletPool.Enqueue(bullet);
     }
@@ -130,4 +134,11 @@ public class DetectTarget : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
+
+    public void ReturnBulletToPool(GameObject bullet)
+    {
+        bullet.SetActive(false);
+        _bulletPool.Enqueue(bullet);
+    }
+    
 }

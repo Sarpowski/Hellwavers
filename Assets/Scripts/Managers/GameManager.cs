@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -13,7 +14,8 @@ public class GameManager : MonoBehaviour
     public PlayerHealthController health;
     public EnemyObjectPool enemyPool;
     public SceneHandler sceneControl;
-
+    public DetectTarget detectTarget;
+    
     //test
    [SerializeField] public SceneHandler scene;
     private void Awake()

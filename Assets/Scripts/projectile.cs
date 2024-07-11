@@ -9,32 +9,46 @@ public class Projectile : MonoBehaviour
 
     private Transform target;
     private float timeAlive;
-
-
-    public void SetTarget(Transform target)
+    private DetectTarget detectTarget;
+   
+    private void Awake()
     {
-        this.target = target;
+        detectTarget = FindObjectOfType<DetectTarget>();
     }
 
     void Update()
     {
         timeAlive += Time.deltaTime;
-        // if (timeAlive >= lifetime)
-        // {
-        //     Destroy(gameObject);
-        // }
+        if (timeAlive >= lifetime)
+        {
+            DeactivateAndReturnToPool();
+        }
 
         if (target)
         {
             Vector3 direction = (target.position - transform.position).normalized;
             transform.position += direction * (speed * Time.deltaTime);
         }
-        else if (timeAlive < lifetime)
+        else
         {
-           
             transform.position += transform.forward * (speed * Time.deltaTime);
+            
         }
+        // else if (timeAlive < lifetime)
+        // {
+        //    
+        //     transform.position += transform.forward * (speed * Time.deltaTime);
+        // }
     }
+
+    
+
+    public void SetTarget(Transform target)
+    {
+        this.target = target;
+        timeAlive = 0f; //no idea
+    }
+  
 
     private void OnTriggerEnter(Collider other)
     {
@@ -42,10 +56,15 @@ public class Projectile : MonoBehaviour
         if (other.CompareTag("Enemy") && other.gameObject.TryGetComponent<EnemyAi>(out var enemyAi))
         {
             enemyAi.CollidedWithProjectile();
-           
+            
             Debug.Log("Projectile hit an enemy: " + other.gameObject.name);
             //killedAnEnemy?.Invoke(); //fixed
            // Destroy(gameObject); // Destroy the projectile
+           DeactivateAndReturnToPool();
         }
+    }
+    private void DeactivateAndReturnToPool()
+    {
+        detectTarget.ReturnBulletToPool(gameObject);
     }
 }

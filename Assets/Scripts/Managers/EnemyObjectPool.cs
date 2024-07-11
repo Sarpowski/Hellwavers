@@ -39,7 +39,7 @@ public class EnemyObjectPool : MonoBehaviour
          _pooledEnemy.Add(_enemyInstantiate);
       }
       Debug.Log($"Created {_amountOfEnemyPrefab} enemy instances.");
-      PrintPoolState();
+     // PrintPoolState();
    }
 
    public GameObject GetPooledObject()
