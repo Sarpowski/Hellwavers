@@ -9,6 +9,7 @@ public class GameplayWindow : MonoBehaviour
     public GameObject restartButton;
     public GameObject menuButton;
     public GameObject EndGameScorePanel;
+    public GameObject SuccesPanel;
     public void Initialize(int currentHealth)
     {
         healthPanel.Initialize(currentHealth);
@@ -16,6 +17,7 @@ public class GameplayWindow : MonoBehaviour
         restartButton.SetActive(false);
         menuButton.SetActive(false);
         EndGameScorePanel.SetActive(false);
+        SuccesPanel.SetActive(false);
     }
 
     public void UpdateHealthUIElements(int showHearthCount)
@@ -31,5 +33,8 @@ public class GameplayWindow : MonoBehaviour
         EndGameScorePanel.SetActive(true);
     }
 
-    
+    public void ShowGameSuccesScreem()
+    {
+        SuccesPanel.SetActive(true);
+    }
 }

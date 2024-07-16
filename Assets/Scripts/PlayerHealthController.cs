@@ -6,17 +6,17 @@ using UnityEngine;
 
 public class PlayerHealthController : MonoBehaviour, IDamageble<int>
 {
-    [SerializeField] private int _maxHealth = 3;
+    [SerializeField] private int _maxHealth =10;
     [SerializeField] private int _minHealth;
     [SerializeField] private int _currentHealth = 3;
-    private int _defaultHealth = 3;
+    private int _defaultHealth = 10;
 
     public event Action<int> HealthChanged; //ui icin
 
     //start
     private void Start()
     {
-        _maxHealth = 3;
+        
     }
 
     public void initHealth()

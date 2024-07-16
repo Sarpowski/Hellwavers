@@ -15,7 +15,8 @@ public class GameManager : MonoBehaviour
     public EnemyObjectPool enemyPool;
     public SceneHandler sceneControl;
     public DetectTarget detectTarget;
-    
+    public EnemyBossAi enemyBossAi;
+
     //test
    [SerializeField] public SceneHandler scene;
     private void Awake()

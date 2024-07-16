@@ -11,7 +11,7 @@ public class DetectTarget : MonoBehaviour
     public GameObject closestEnemy;
     public GameObject projectilePrefab;
     public Transform shootPoint;
-    public float shootInterval = 1f; // Time between shots
+    [SerializeField] public float shootInterval = 1f; // Time between shots
     
     public float detectionRadius = 10f;
     
@@ -107,6 +107,8 @@ public class DetectTarget : MonoBehaviour
             _bulletInstantiate = GetBulletFromPool();
             if (_bulletInstantiate != null)
             {
+                 Vector3 yCorrection = closestEnemy.transform.position;
+                 yCorrection.y += 2;
                 _bulletInstantiate.transform.position = shootPoint.transform.position;
                 _bulletInstantiate.SetActive(true);
               //  StartCoroutine(FalseBulletGameObject(_bulletInstantiate));
@@ -115,6 +117,7 @@ public class DetectTarget : MonoBehaviour
             
             if (projScript != null)
             {
+               
                 projScript.SetTarget(closestEnemy.transform);
             }
         }

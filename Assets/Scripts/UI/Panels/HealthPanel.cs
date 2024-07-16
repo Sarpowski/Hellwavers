@@ -32,7 +32,7 @@ public class HealthPanel : MonoBehaviour
 
         if (availableHeartCount < showHeartCount)
         {
-            Debug.LogError("You are making a mistake!");
+            Debug.Log("You are making a mistake!");
             return;
         }
 

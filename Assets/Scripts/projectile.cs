@@ -62,6 +62,16 @@ public class Projectile : MonoBehaviour
            // Destroy(gameObject); // Destroy the projectile
            DeactivateAndReturnToPool();
         }
+
+        if (other.CompareTag("Enemy") && other.gameObject.TryGetComponent<EnemyBossAi>(out var enemyBossAi))
+        {
+            enemyBossAi.CollidedWithProjectile();
+            
+            Debug.Log("Projectile hit an enemy: " + other.gameObject.name);
+            //killedAnEnemy?.Invoke(); //fixed
+            // Destroy(gameObject); // Destroy the projectile
+            DeactivateAndReturnToPool();
+        }
     }
     private void DeactivateAndReturnToPool()
     {

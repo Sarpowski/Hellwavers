@@ -47,4 +47,8 @@ public class UIManager : MonoBehaviour
         gameplayWindow.ShowGameOverScreen();
     }
 
+    private void OnPlayerWins()
+    {
+        gameplayWindow.ShowGameSuccesScreem();
+    }
 }
