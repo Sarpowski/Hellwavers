@@ -8,13 +8,14 @@ public class GameplayWindow : MonoBehaviour
     [SerializeField] private HealthPanel healthPanel;
     public GameObject restartButton;
     public GameObject menuButton;
-
+    public GameObject EndGameScorePanel;
     public void Initialize(int currentHealth)
     {
         healthPanel.Initialize(currentHealth);
         
         restartButton.SetActive(false);
         menuButton.SetActive(false);
+        EndGameScorePanel.SetActive(false);
     }
 
     public void UpdateHealthUIElements(int showHearthCount)
@@ -27,6 +28,7 @@ public class GameplayWindow : MonoBehaviour
         //TODO game Over Screen
         restartButton.SetActive(true);
         menuButton.SetActive(true);
+        EndGameScorePanel.SetActive(true);
     }
 
     

@@ -95,12 +95,12 @@ public class EnemyManager : MonoBehaviour
                 }
                 
                 NavMeshAgent agent = enemyAiComponent.GetComponent<NavMeshAgent>();
-                    if (agent != null)
-                    {
-                        agent.speed *= Mathf.Pow(difficultyMultiplier, currentWave - 1);
-                    }
+                if (agent != null)
+                {
+                    agent.speed *= Mathf.Pow(difficultyMultiplier, currentWave - 1);
+                }
             }
-                
+            
             enemyCount++;
         }
         else
