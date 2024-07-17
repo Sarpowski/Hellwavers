@@ -32,14 +32,18 @@ public class EnemyObjectPool : MonoBehaviour
          Debug.LogError("Amount of Enemy Prefabs must be greater than 0.");
          return;
       }
+
+      int tempEnemyCount = 0;
       for (int i = 0; i < _amountOfEnemyPrefab; i++)
       {
+         tempEnemyCount++;
          _enemyInstantiate = Instantiate(_EnemyPrefab);
          _enemyInstantiate.SetActive(false);
          _pooledEnemy.Add(_enemyInstantiate);
       }
       Debug.Log($"Created {_amountOfEnemyPrefab} enemy instances.");
      // PrintPoolState();
+     Debug.LogError($"Created enemy count {tempEnemyCount}");
    }
 
    public GameObject GetPooledObject()

@@ -21,7 +21,8 @@ public class EnemyManager : MonoBehaviour
     
     void Start()
     {
-        
+        EnemyObjectPool.SharedInstance.CreateEnemyAtFirstStart();
+
         StartCoroutine(ManageWaves());
         GameManager.Instance.player.PlayerDied += OnPlayerDied;
     }
@@ -149,7 +150,7 @@ public class EnemyManager : MonoBehaviour
             int randomIndex = Random.Range(0, m_spawnPoints.Length);
             Debug.Log("Random index: " + randomIndex);
             
-            EnemyObjectPool.SharedInstance.CreateEnemyAtFirstStart();
+          //  EnemyObjectPool.SharedInstance.CreateEnemyAtFirstStart();
             Transform spawnPoint = m_spawnPoints[randomIndex % m_spawnPoints.Length];
             var enemyAi = EnemyObjectPool.SharedInstance.GetPooledObject();
             if (enemyAi != null)
