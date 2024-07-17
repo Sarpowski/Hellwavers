@@ -43,7 +43,7 @@ public class EnemyObjectPool : MonoBehaviour
       }
       Debug.Log($"Created {_amountOfEnemyPrefab} enemy instances.");
      // PrintPoolState();
-     Debug.LogError($"Created enemy count {tempEnemyCount}");
+     Debug.Log($"Created enemy count {tempEnemyCount}");
    }
 
    public GameObject GetPooledObject()
