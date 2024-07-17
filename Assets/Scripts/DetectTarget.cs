@@ -240,6 +240,7 @@ public class DetectTarget : MonoBehaviour
             _bulletInstantiate = GetBulletFromPool();
             if (_bulletInstantiate != null)
             {
+                AudioManager.Instance.PlaySFX("light_blast_1");
                 _bulletInstantiate.transform.position = shootPoint.transform.position;
                 _bulletInstantiate.SetActive(true);
                 Projectile projScript = _bulletInstantiate.GetComponent<Projectile>();

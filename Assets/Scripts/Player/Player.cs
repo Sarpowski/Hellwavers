@@ -45,6 +45,12 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
 
             Debug.Log(playerHealthController.getHealth());
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("Space button is pressed");
+            _movementJoystick.Dash();
+        }
         //test
     }
 

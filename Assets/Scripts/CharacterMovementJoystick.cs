@@ -10,6 +10,13 @@ public class CharacterMovementJoystick : MonoBehaviour
    [SerializeField] private Animator _animator;
    [SerializeField] private float _moveSpeed= 2.0f;
    [SerializeField] private float _rotationSpeed = 10.0f;  // Added for smooth rotation
+  //new stuff
+   [SerializeField] private float _dashSpeed = 10.0f;
+   [SerializeField] private float _dashDuration = 0.5f;
+   
+   private bool _isDashing = false;
+   
+   
  public void Move()
  {
      
@@ -26,5 +33,25 @@ public class CharacterMovementJoystick : MonoBehaviour
          _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, targetRotation, _rotationSpeed * Time.deltaTime));
      }
  }
- 
+
+ public void Dash()
+ {
+     if (!_isDashing)
+     {
+         StartCoroutine(DashCoroutine());
+     }
+ }
+
+ private IEnumerator DashCoroutine()
+ {
+     _isDashing = true;
+
+     float originalMoveSpeed = _moveSpeed;
+     _moveSpeed = _dashSpeed;
+
+     yield return new WaitForSeconds(_dashDuration);
+
+     _moveSpeed = originalMoveSpeed;
+     _isDashing = false;
+ }
 }
