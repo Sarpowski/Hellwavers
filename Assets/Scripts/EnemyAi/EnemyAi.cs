@@ -18,8 +18,8 @@ public class EnemyAi : MonoBehaviour
     
     [SerializeField] public int _health;
     void Start()
-    {   
-        
+    {
+        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         
         if (GameManager.Instance != null)
@@ -32,6 +32,8 @@ public class EnemyAi : MonoBehaviour
             player = player_Target.transform;
             player_Target.PlayerDied += OnPlayerDied;
         }
+        animator.SetBool("idle",false);
+        animator.SetBool("run", true);
     }
 
    
@@ -67,16 +69,36 @@ public class EnemyAi : MonoBehaviour
         SetLayerRecursively(gameObject, noCollisonLayer);
         
         isDead = true;
+        animator.enabled = false;
+        EnableRagdoll();
+        
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
         gameObject.GetComponent<EnemyAi>().enabled = false;
         
-        animator.enabled = false;
         
         //Destroy(gameObject);
         
         StartCoroutine(DestroyAfterDelay(10f));
     }
-
+    
+    private void EnableRagdoll()
+    {
+        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in rigidbodies)
+        {
+            rb.isKinematic = false;
+            rb.detectCollisions = true;
+        }
+    }
+    private void DisableRagdoll()
+    {
+        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in rigidbodies)
+        {
+            rb.isKinematic = true;
+            rb.detectCollisions = false;
+        }
+    }
     private IEnumerator DestroyAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -93,6 +115,9 @@ public class EnemyAi : MonoBehaviour
         if (agent.isOnNavMesh)
         {
             agent.isStopped= true;
+            //todo animation idle
+            animator.SetBool("run",false); 
+            animator.SetBool("idle",true);
         }
     }
 
@@ -150,6 +175,8 @@ public class EnemyAi : MonoBehaviour
         {
             Debug.Log("Player target is missing.");
         }
+        DisableRagdoll();
+        animator.SetBool("run", true);
     }
 
     void SetLayerRecursively(GameObject obj, int newLayer)
