@@ -264,4 +264,18 @@ public class DetectTarget : MonoBehaviour
         bullet.SetActive(false);
         _bulletPool.Enqueue(bullet);
     }
+
+    public void AddShootingIntervalSpeed(float interval)
+    {
+        float tolerance = 0.0001f;
+
+        if (Mathf.Abs(shootInterval - 0.1f) < tolerance)
+        {
+            return;
+        }
+        else
+        {
+            shootInterval += interval;
+        }
+    }
 }

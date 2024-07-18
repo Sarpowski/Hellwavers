@@ -34,6 +34,12 @@ public class CharacterMovementJoystick : MonoBehaviour
      }
  }
 
+ public void AddMoveSpeed(float moveSpeed)
+ {
+     //TODO timer
+     
+     _moveSpeed += moveSpeed;
+ }
  public void Dash()
  {
      if (!_isDashing)

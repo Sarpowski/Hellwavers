@@ -42,4 +42,18 @@ public class PlayerHealthController : MonoBehaviour, IDamageble<int>
 
         HealthChanged?.Invoke(_currentHealth);
     }
+
+    public void AddHealth(int healthAmount)
+    {
+        if (_currentHealth == 3)
+        {
+            return;
+        }
+        else
+        {
+            _currentHealth += healthAmount;
+            HealthChanged?.Invoke(_currentHealth);
+
+        }
+    }
 }

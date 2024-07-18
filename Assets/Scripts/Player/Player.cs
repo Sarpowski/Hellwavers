@@ -12,7 +12,7 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
     [SerializeField] private PlayerHealthController playerHealthController;
     [SerializeField] private Animator _animator;
     [SerializeField] private Score _score;
-
+    [SerializeField] private DetectTarget _detectTarget;
     
     public bool isDead { get; private set; } = false;
     public event Action<int> PlayerHealthChanged;
@@ -115,11 +115,7 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
             rb.angularVelocity = Vector3.zero;
         }
 
-        // Collider collider = GetComponent<Collider>();
-        // if (collider != null)
-        // {
-        //     collider.enabled = false;
-        // }
+        
 
 
         _animator.enabled = false;
@@ -142,6 +138,32 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
         {
             Debug.Log("Taking damage");
             playerHealthController.TakeDamage(1);
+        }
+
+        
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "healthGem")
+        {
+            Debug.Log("player earned some health");
+            playerHealthController.AddHealth(1);
+        }
+        else if(other.gameObject.tag == "shootingSpeedGem")
+        {
+            Debug.Log("Shooting speed gained");
+            _detectTarget.AddShootingIntervalSpeed(-0.1f);
+        }
+        else if (other.gameObject.tag == "characterSpeedGem")
+        {
+            //Todo timer please
+            _movementJoystick.AddMoveSpeed(4);
+        }
+        else
+        {
+            Debug.Log("player earned Some move speed");
+            
         }
     }
 }

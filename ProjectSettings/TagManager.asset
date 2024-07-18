@@ -7,6 +7,9 @@ TagManager:
   - Enemy
   - DiedEnemy
   - Obstacle
+  - healthGem
+  - shootingSpeedGem
+  - characterSpeedGem
   layers:
   - Default
   - TransparentFX
