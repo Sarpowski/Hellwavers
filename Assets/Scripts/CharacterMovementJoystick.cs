@@ -6,7 +6,7 @@ using UnityEngine;
 public class CharacterMovementJoystick : MonoBehaviour
 {
    [SerializeField] private Rigidbody _rigidbody;
-   [SerializeField] private FixedJoystick _joystick;
+   [SerializeField] private FloatingJoystick _joystick;
    [SerializeField] private Animator _animator;
    [SerializeField] private float _moveSpeed= 2.0f;
    [SerializeField] private float _rotationSpeed = 10.0f;  // Added for smooth rotation
