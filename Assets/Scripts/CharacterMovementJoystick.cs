@@ -36,9 +36,25 @@ public class CharacterMovementJoystick : MonoBehaviour
 
  public void AddMoveSpeed(float moveSpeed)
  {
-     //TODO timer
+     float tolerance = 0.0001f;
+     float maxMoveSpeed = 14.0f;
+
      
-     _moveSpeed += moveSpeed;
+     if (Mathf.Abs(moveSpeed - 0.1f) < tolerance)
+     {
+         return;
+     }
+
+     float newMoveSpeed = _moveSpeed + moveSpeed;
+     
+     if (newMoveSpeed > maxMoveSpeed)
+     {
+         _moveSpeed = maxMoveSpeed;
+     }
+     else
+     {
+         _moveSpeed = newMoveSpeed;
+     }
  }
  public void Dash()
  {
