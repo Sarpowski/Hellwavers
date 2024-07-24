@@ -36,7 +36,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     private Canvas canvas;
     //private Camera cam;
-    public Camera cam;
+    private Camera cam;
    
     private Vector2 input = Vector2.zero;
 
@@ -135,9 +135,10 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         handle.anchoredPosition = Vector2.zero;
     }
 
+    
     protected Vector2 ScreenPointToAnchoredPosition(Vector2 screenPosition)
     {
-        Vector2 localPoint = Vector2.zero;
+        Vector2 localPoint =  Vector2.zero;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(baseRect, screenPosition, cam, out localPoint))
         {
             Vector2 pivotOffset = baseRect.pivot * baseRect.sizeDelta;
@@ -145,6 +146,8 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         }
         return Vector2.zero;
     }
+  
 }
 
 public enum AxisOptions { Both, Horizontal, Vertical }
+ 

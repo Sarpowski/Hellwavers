@@ -32,16 +32,16 @@ public class GemSpawner : MonoBehaviour
       
        
         spawnTimer += Time.deltaTime;
-        Debug.Log("Spawn Timer: " + spawnTimer);
+      //  Debug.Log("Spawn Timer: " + spawnTimer);
 
         if (spawnTimer >= spawnInterval)
         {
-            Debug.Log("Spawn interval reached");
+        //    Debug.Log("Spawn interval reached");
             spawnTimer = 0f;
             Vector3 point;
             if (RandomPoint(transform.position, range, out point))
             {
-                Debug.Log("Valid spawn point found");
+         //       Debug.Log("Valid spawn point found");
                 Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
                 
                 SpawnGem(point);

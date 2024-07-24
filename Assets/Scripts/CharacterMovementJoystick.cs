@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SimpleInputNamespace;
 [RequireComponent(typeof(Rigidbody))]
 public class CharacterMovementJoystick : MonoBehaviour
 {
+    
    [SerializeField] private Rigidbody _rigidbody;
    [SerializeField] private FloatingJoystick _joystick;
    [SerializeField] private Animator _animator;
@@ -22,7 +24,6 @@ public class CharacterMovementJoystick : MonoBehaviour
      
      Vector3 moveDirection = new Vector3(_joystick.Horizontal * _moveSpeed, _rigidbody.velocity.y, _joystick.Vertical * _moveSpeed);
      _rigidbody.velocity = moveDirection;
-
      float moveAmount = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical).magnitude;
      _animator.SetFloat("MoveAmount", moveAmount);
 
