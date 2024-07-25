@@ -26,8 +26,16 @@ public class UIManager : MonoBehaviour
 
         GameManager.Instance.player.PlayerHealthChanged += OnPlayerHealthChanged; //decreaseHealth
         GameManager.Instance.player.PlayerDied += OnPlayerDied; // player dead 
+        EnemyManager.OnSuccess += OnSuccesEnd;
         //initial UI update 
         //UpdateHealthUI(GameManager.Instance.GetPlayerHealth());
+    }
+
+    private void OnSuccesEnd()
+    {
+        //TODO implement success screen
+        Debug.Log("BOSS died and this sended from UI manager");
+        OnPlayerWins();
     }
 
     private void OnDestroy()
@@ -35,6 +43,7 @@ public class UIManager : MonoBehaviour
         Debug.Log("UI_PlayerHealth_Controller: Unsubscribing from events");
         GameManager.Instance.player.PlayerHealthChanged -= OnPlayerHealthChanged;
         GameManager.Instance.player.PlayerDied -= OnPlayerDied;
+        EnemyManager.OnSuccess -= OnSuccesEnd;
     }
 
     private void OnPlayerHealthChanged(int currentHealth)

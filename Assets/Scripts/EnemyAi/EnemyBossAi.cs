@@ -12,7 +12,7 @@ public class EnemyBossAi : MonoBehaviour
     private NavMeshAgent agent;
     public Player player_Target;
     public Animator animator; 
-    public static event Action OnEnemyDeath;
+    public  static event Action OnEnemyBossDeath;
     public bool isDead { get; private set; } = false;
     
     [SerializeField] public int _health;
@@ -50,19 +50,19 @@ public class EnemyBossAi : MonoBehaviour
         {
             Debug.Log("Boss Enemy got hitted by player");
             //TODO stop for 2 sec 
-            Die();
+            _health--;
+            if (_health == 0)
+            {
+                Die();
+            }
 
         }
-        // else if (other.gameObject.CompareTag("Projectile"))
-        // {
-        //     Debug.Log("Enemy got hit by a projectile");
-        //     CollidedWithProjectile();
-        // }
+
     }
     //enemyStat manager could be 
     private void Die()
     {
-        OnEnemyDeath?.Invoke();
+        OnEnemyBossDeath?.Invoke();
         
       
         
@@ -93,7 +93,11 @@ public class EnemyBossAi : MonoBehaviour
     }
     public void CollidedWithProjectile()
     {
-        Die();
+        _health--;
+        if (_health == 0)
+        {
+            Die();
+        }
     }
     private void OnPlayerDied()
     {

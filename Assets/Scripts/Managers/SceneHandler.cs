@@ -13,6 +13,7 @@ public class SceneHandler : MonoBehaviour
     //Future Implementation for the Start Game logic 
     public void MenuGame()
     {
-        SceneManager.LoadScene("Main Menu");
+        //could be a menu scene
+        // SceneManager.LoadScene("Main Menu");
     }
 }

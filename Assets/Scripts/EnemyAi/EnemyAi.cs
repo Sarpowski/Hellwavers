@@ -115,7 +115,7 @@ public class EnemyAi : MonoBehaviour
         if (agent.isOnNavMesh)
         {
             agent.isStopped= true;
-            //todo animation idle
+            
             animator.SetBool("run",false); 
             animator.SetBool("idle",true);
         }

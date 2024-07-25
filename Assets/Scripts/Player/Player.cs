@@ -68,7 +68,7 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
 
     private void BeforeDieMusic()
     {
-        AudioManager.Instance.PlayMusic("TEST_DIE");
+     //   AudioManager.Instance.PlayMusic("TEST_DIE");
     }
 
     private void OnPlayerHealthChanged(int currentHealth)
@@ -142,9 +142,18 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
 
         
     }
+    
+       
 
+        
+    
     public void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.tag == "Enemy")
+        {
+            Debug.Log("Taking damage");
+            playerHealthController.TakeDamage(1);
+        }
         if (other.gameObject.tag == "healthGem")
         {
             Debug.Log("player earned some health");

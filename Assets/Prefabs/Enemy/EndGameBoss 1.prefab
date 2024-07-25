@@ -73,7 +73,7 @@ MonoBehaviour:
   player: {fileID: 0}
   player_Target: {fileID: 0}
   animator: {fileID: 33285083706022798}
-  _health: 0
+  _health: 3
 --- !u!95 &33285083706022798
 Animator:
   serializedVersion: 5

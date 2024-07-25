@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 /*
 public class EnemyManager : MonoBehaviour
@@ -184,20 +185,172 @@ public class EnemyManager : MonoBehaviour
    
    */
 
+//
+// public class EnemyManager : MonoBehaviour
+// {
+//     public Transform[] spawnPoints;
+//     public WaveManagerConfig waveManagerConfig;
+//
+//     private int currentWaveIndex = 0;
+//     private bool waveInProgress = false;
+//     private List<GameObject> activeEnemies = new List<GameObject>();
+//
+//     void Start()
+//     {
+//         StartCoroutine(ManageWaves());
+//         GameManager.Instance.player.PlayerDied += OnPlayerDied;
+//     }
+//
+//     private void OnPlayerDied()
+//     {
+//         waveInProgress = false;
+//         StopAllCoroutines();
+//     }
+//
+//     private IEnumerator ManageWaves()
+//     {
+//         while (currentWaveIndex < waveManagerConfig.waves.Length)
+//         {
+//             WaveConfig currentWave = waveManagerConfig.waves[currentWaveIndex];
+//             waveInProgress = true;
+//             yield return StartCoroutine(SpawnWave(currentWave));
+//
+//             if (currentWave.spawnAfterAllDead)
+//             {
+//                 yield return new WaitUntil(() => activeEnemies.Count == 0);
+//             }
+//
+//             yield return new WaitForSeconds(currentWave.timeBetweenWaves);
+//             waveInProgress = false;
+//             currentWaveIndex++;
+//         }
+//     }
+//
+//     private IEnumerator SpawnWave(WaveConfig waveConfig)
+//     {
+//         Debug.Log("current wave" + (currentWaveIndex + 1));
+//         foreach (var enemyConfig in waveConfig.enemies)
+//         {
+//             for (int i = 0; i < enemyConfig.enemyCount; i++)
+//             {
+//                 SpawnNewEnemy(enemyConfig.enemyPrefab, enemyConfig.healthMultiplier,  enemyConfig.speedMultiplier);
+//                 yield return new WaitForSeconds(waveConfig.spawnInterval);
+//             }
+//
+//            
+//         }
+//     }
+//
+//     private void SpawnNewEnemy(GameObject enemyPrefab, float healthMultiplier, float speedMultiplier)
+//     {
+//         if (enemyPrefab != null && spawnPoints.Length > 0)
+//         {
+//             int randomIndex = Random.Range(0, spawnPoints.Length);
+//             Transform spawnPoint = spawnPoints[randomIndex];
+//             var enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+//             activeEnemies.Add(enemy);
+//            
+//                 EnemyAi enemyAiComponent = enemy.GetComponent<EnemyAi>();
+//                 if (enemyAiComponent != null)
+//                 {
+//                     enemyAiComponent.ResetEnemy();
+//                     enemyAiComponent._health = Mathf.RoundToInt(enemyAiComponent._health * healthMultiplier);
+//                 }
+//                 NavMeshAgent agent = enemyAiComponent.GetComponent<NavMeshAgent>();
+//                 if (agent != null)
+//                 {
+//                     agent.speed *= speedMultiplier;
+//                 }
+//                 
+//             //   enemy.GetComponent<EnemyHealth>().OnDeath += () => activeEnemies.Remove(enemy);
+//         }
+//     }
+//     
+// }
 
+//TOTAL CLUSTERF*CK
 public class EnemyManager : MonoBehaviour
 {
-    public Transform[] spawnPoints;
+    public Transform[] m_spawnPoints;
     public WaveManagerConfig waveManagerConfig;
-
+    
+    public EnemyBossAi m_BossPrefab;
     private int currentWaveIndex = 0;
     private bool waveInProgress = false;
     private List<GameObject> activeEnemies = new List<GameObject>();
-
-    void Start()
+    
+    [SerializeField] private  int bossCount;
+    private int createdEnemies;
+    private int diedEnemies;
+    private int diedBossCount;
+    
+    public  static event Action OnSuccess;
+    private void Start()
     {
+        EnemyObjectPool.SharedInstance.CreateEnemyAtFirstStart();
         StartCoroutine(ManageWaves());
         GameManager.Instance.player.PlayerDied += OnPlayerDied;
+        EnemyAi.OnEnemyDeath += OnEnemyKilled;
+        EnemyBossAi.OnEnemyBossDeath += OnBossKilled;
+    }
+
+    private void OnBossKilled()
+    {
+        diedBossCount++;
+        if (diedBossCount==bossCount)
+        {
+            OnSuccess?.Invoke();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        EnemyAi.OnEnemyDeath -= OnEnemyKilled;
+        EnemyBossAi.OnEnemyBossDeath -= OnBossKilled;
+        //belki patlar kim bilir
+        GameManager.Instance.player.PlayerDied -= OnPlayerDied;
+
+    }
+
+    private void OnEnemyKilled()
+    {
+        diedEnemies++;
+        if ( createdEnemies == diedEnemies)
+        {
+            SpawnLoop();
+        }
+    }
+
+   
+
+    private void SpawnLoop()
+    {
+        for (int i = 0; i < bossCount; i++)
+        {
+          
+            BossSpawnHandler();
+
+        }
+       
+    }
+
+    private void BossSpawnHandler()
+    {
+        Debug.Log("CALL the BOSS");
+        //TODO spawn boss
+        if (m_BossPrefab != null && m_spawnPoints != null && m_spawnPoints.Length > 0)
+        {
+            int randomIndex = Random.Range(0, m_spawnPoints.Length);
+            Transform spawnPoint = m_spawnPoints[randomIndex % m_spawnPoints.Length];
+            var bossAi = Instantiate(m_BossPrefab, spawnPoint.position, spawnPoint.rotation);
+            
+        }
+        else
+        {
+            Debug.Log("Spawn points array is null or empty.");
+        }
+        
+        
     }
 
     private void OnPlayerDied()
@@ -208,6 +361,7 @@ public class EnemyManager : MonoBehaviour
 
     private IEnumerator ManageWaves()
     {
+        
         while (currentWaveIndex < waveManagerConfig.waves.Length)
         {
             WaveConfig currentWave = waveManagerConfig.waves[currentWaveIndex];
@@ -219,6 +373,8 @@ public class EnemyManager : MonoBehaviour
                 yield return new WaitUntil(() => activeEnemies.Count == 0);
             }
 
+           
+
             yield return new WaitForSeconds(currentWave.timeBetweenWaves);
             waveInProgress = false;
             currentWaveIndex++;
@@ -227,42 +383,55 @@ public class EnemyManager : MonoBehaviour
 
     private IEnumerator SpawnWave(WaveConfig waveConfig)
     {
-        Debug.Log("current wave" + (currentWaveIndex + 1));
+        Debug.Log("Current wave: " + (currentWaveIndex + 1));
+       
         foreach (var enemyConfig in waveConfig.enemies)
         {
             for (int i = 0; i < enemyConfig.enemyCount; i++)
             {
-                SpawnNewEnemy(enemyConfig.enemyPrefab, enemyConfig.healthMultiplier,  enemyConfig.speedMultiplier);
+                SpawnNewEnemy(enemyConfig.enemyPrefab, enemyConfig.healthMultiplier, enemyConfig.speedMultiplier);
+                createdEnemies++;
                 yield return new WaitForSeconds(waveConfig.spawnInterval);
             }
-
-           
         }
+        Debug.Log("enemies count"+ createdEnemies);
     }
 
     private void SpawnNewEnemy(GameObject enemyPrefab, float healthMultiplier, float speedMultiplier)
     {
-        if (enemyPrefab != null && spawnPoints.Length > 0)
+        if (enemyPrefab.name == "RagDolledGuyNew Variant")
         {
-            int randomIndex = Random.Range(0, spawnPoints.Length);
-            Transform spawnPoint = spawnPoints[randomIndex];
-            var enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-            activeEnemies.Add(enemy);
-           
-                EnemyAi enemyAiComponent = enemy.GetComponent<EnemyAi>();
-                if (enemyAiComponent != null)
+            if (enemyPrefab != null && m_spawnPoints.Length > 0)
+            {
+                int randomIndex = Random.Range(0, m_spawnPoints.Length);
+                Transform spawnPoint = m_spawnPoints[randomIndex];
+                var enemy = EnemyObjectPool.SharedInstance.GetPooledObject();
+
+                if (enemy != null)
                 {
-                    enemyAiComponent.ResetEnemy();
-                    enemyAiComponent._health = Mathf.RoundToInt(enemyAiComponent._health * healthMultiplier);
+                    enemy.transform.position = spawnPoint.position;
+                    enemy.transform.rotation = spawnPoint.rotation;
+                    enemy.SetActive(true);
+                    activeEnemies.Add(enemy);
+
+                    EnemyAi enemyAiComponent = enemy.GetComponent<EnemyAi>();
+                    if (enemyAiComponent != null)
+                    {
+                        enemyAiComponent.ResetEnemy();
+                        enemyAiComponent._health = Mathf.RoundToInt(enemyAiComponent._health * healthMultiplier);
+                    }
+                    NavMeshAgent agent = enemyAiComponent.GetComponent<NavMeshAgent>();
+                    if (agent != null)
+                    {
+                        agent.speed *= speedMultiplier;
+                    }
+
                 }
-                NavMeshAgent agent = enemyAiComponent.GetComponent<NavMeshAgent>();
-                if (agent != null)
-                {
-                    agent.speed *= speedMultiplier;
-                }
-                
-            //   enemy.GetComponent<EnemyHealth>().OnDeath += () => activeEnemies.Remove(enemy);
+            }
         }
+        //Could be more enemies ...
+       
+        
+       
     }
-    
 }

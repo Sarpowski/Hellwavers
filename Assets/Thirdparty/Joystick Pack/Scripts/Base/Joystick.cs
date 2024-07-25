@@ -8,6 +8,8 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public float Horizontal { get { return (snapX) ? SnapFloat(input.x, AxisOptions.Horizontal) : input.x; } }
     public float Vertical { get { return (snapY) ? SnapFloat(input.y, AxisOptions.Vertical) : input.y; } }
     public Vector2 Direction { get { return new Vector2(Horizontal, Vertical); } }
+    
+  
     public float HandleRange
     {
         get { return handleRange; }
@@ -35,7 +37,6 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public RectTransform baseRect = null;
 
     private Canvas canvas;
-    //private Camera cam;
     private Camera cam;
    
     private Vector2 input = Vector2.zero;
@@ -138,16 +139,31 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     
     protected Vector2 ScreenPointToAnchoredPosition(Vector2 screenPosition)
     {
-        Vector2 localPoint =  Vector2.zero;
+        Vector2 localPoint = new Vector2(0,0);
+       
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(baseRect, screenPosition, cam, out localPoint))
         {
+           
+
             Vector2 pivotOffset = baseRect.pivot * baseRect.sizeDelta;
-            return localPoint - (background.anchorMax * baseRect.sizeDelta) + pivotOffset;
+            Vector2 anchoredPosition = localPoint - (background.anchorMax * baseRect.sizeDelta) + pivotOffset;
+
+            // Debug statements to check values
+            Debug.Log($"ScreenPosition: {screenPosition}");
+            Debug.Log($"LocalPoint: {localPoint}");
+            Debug.Log($"PivotOffset: {pivotOffset}");
+            Debug.Log($"AnchoredPosition: {anchoredPosition}");
+
+            return anchoredPosition;
         }
         return Vector2.zero;
+        
+        
     }
   
 }
 
 public enum AxisOptions { Both, Horizontal, Vertical }
  
+
+
