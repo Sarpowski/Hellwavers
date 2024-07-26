@@ -5,35 +5,77 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-
+[RequireComponent(typeof(PlayerHealthController))]
+[RequireComponent(typeof(CharacterMovementJoystick))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(DetectTarget))]
+[RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour, IKillable, IDamageble<int>
 {
-    [SerializeField] private CharacterMovementJoystick _movementJoystick;
-    [SerializeField] private PlayerHealthController playerHealthController;
-    [SerializeField] private Animator _animator;
-    [SerializeField] private Score _score;
-    [SerializeField] private DetectTarget _detectTarget;
-    
-    public bool isDead { get; private set; } = false;
+    private CharacterMovementJoystick _movementJoystick;
+    private PlayerHealthController _playerHealthController;
+    private Animator _animator;
+    private DetectTarget _detectTarget;
+    private Rigidbody _body;
+
+    private bool _isActive;
+    private bool _isInputActive;
+
+    public bool IsDead { get; private set; }
     public event Action<int> PlayerHealthChanged;
     public event Action PlayerDied;
 
-    void Start()
+    private void Init()
     {
-        isDead = false;
         _movementJoystick = GetComponent<CharacterMovementJoystick>();
-        playerHealthController = GetComponent<PlayerHealthController>();
+        _playerHealthController = GetComponent<PlayerHealthController>();
+        _animator = GetComponent<Animator>();
+        _detectTarget = GetComponent<DetectTarget>();
+        _body = GetComponent<Rigidbody>();
+    }
 
+    public void Initialize()
+    {
+        Init();
+        SubscribeEvents();
 
-        if (playerHealthController == null)
-        {
-            Debug.LogError("PlayerHealthController component  missing on the Player.");
-            return;
-        }
+        InitializeSubControllers();
+    }
 
+    private void InitializeSubControllers()
+    {
+        _playerHealthController.Initialize();
+        _detectTarget.Initialize();
+    }
 
-        playerHealthController.initHealth();
-        playerHealthController.HealthChanged += OnPlayerHealthChanged;
+    public void OnStartGameplay()
+    {
+        _playerHealthController.OnStartGameplay();
+        _detectTarget.OnStartGameplay();
+        
+        _isActive = true;
+        _isInputActive = true;
+
+        SetJoystickState(true);
+    }
+
+    public void OnFinishGameplay(bool isSuccess)
+    {
+        _playerHealthController.OnFinishGameplay();
+        _detectTarget.OnFinishGameplay();
+
+        SetJoystickState(false);
+    }
+    private void SubscribeEvents()
+    {
+        UnsubscribeEvents();
+
+        _playerHealthController.HealthChanged += OnPlayerHealthChanged;
+    }
+
+    private void UnsubscribeEvents()
+    {
+        _playerHealthController.HealthChanged -= OnPlayerHealthChanged;
     }
 
     void Update()
@@ -41,9 +83,9 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
         if (Input.GetKeyDown(KeyCode.H))
         {
             Debug.Log("H button is pressed");
-            playerHealthController.TakeDamage(1);
+            _playerHealthController.TakeDamage(1);
 
-            Debug.Log(playerHealthController.getHealth());
+            Debug.Log(_playerHealthController.getHealth());
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -56,19 +98,19 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
 
     void FixedUpdate()
     {
-        if (isDead == true)
-        {
-            Debug.Log("character is dead");
+        if (!_isActive)
             return;
-        }
 
-        // Movement logic
-        _movementJoystick.Move();
+        if (_isInputActive)
+        {
+            // Movement logic
+            _movementJoystick.Move();
+        }
     }
 
     private void BeforeDieMusic()
     {
-     //   AudioManager.Instance.PlayMusic("TEST_DIE");
+        //   AudioManager.Instance.PlayMusic("TEST_DIE");
     }
 
     private void OnPlayerHealthChanged(int currentHealth)
@@ -86,49 +128,44 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
     }
 
 
-
     public void Die()
     {
-        _animator.enabled = false;
-       
-
-        if (isDead)
+        if (IsDead)
         {
+            Debug.LogError("Player is already dead!!!!");
             return;
         }
 
-        isDead = true;
-        Debug.Log("isDead" + isDead);
+        IsDead = true;
 
-        PlayerDied?.Invoke();
-
-        if (_movementJoystick != null)
-        {
-            _movementJoystick.enabled = false;
-        }
-
-        Rigidbody rb = GetComponent<Rigidbody>();
-
-        if (rb != null)
-        {
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
-
-        
-
+        ResetVelocity();
 
         _animator.enabled = false;
+        
+        _isActive = false;
+        PlayerDied?.Invoke();
+    }
+
+    private void SetJoystickState(bool isInputActive)
+    {
+        _movementJoystick.SetJoystickVisibility(isInputActive);
+        _isInputActive = isInputActive;
+    }
+
+    private void ResetVelocity()
+    {
+        _body.velocity = Vector3.zero;
+        _body.angularVelocity = Vector3.zero;
     }
 
     public void TakeDamage(int damageAmount)
     {
-        playerHealthController.TakeDamage(damageAmount);
+        _playerHealthController.TakeDamage(damageAmount);
     }
 
     public void Kill()
     {
-        playerHealthController.TakeDamage(playerHealthController.getHealth());
+        _playerHealthController.TakeDamage(_playerHealthController.getHealth());
     }
 
 
@@ -136,32 +173,28 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
     {
         if (other.gameObject.tag == "Enemy")
         {
-            Debug.Log("Taking damage");
-            playerHealthController.TakeDamage(1);
+            // Debug.Log("Taking damage");
+            _playerHealthController.TakeDamage(1);
         }
-
-        
     }
-    
-       
 
-        
-    
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Enemy")
         {
-            Debug.Log("Taking damage");
-            playerHealthController.TakeDamage(1);
+            // Debug.Log("Taking damage");
+            _playerHealthController.TakeDamage(1);
         }
+
         if (other.gameObject.tag == "healthGem")
         {
-            Debug.Log("player earned some health");
-            playerHealthController.AddHealth(1);
+            // Debug.Log("player earned some health");
+            _playerHealthController.AddHealth(1);
         }
-        else if(other.gameObject.tag == "shootingSpeedGem")
+        else if (other.gameObject.tag == "shootingSpeedGem")
         {
-            Debug.Log("Shooting speed gained");
+            // Debug.Log("Shooting speed gained");
             _detectTarget.AddShootingIntervalSpeed(-0.1f);
         }
         else if (other.gameObject.tag == "characterSpeedGem")
@@ -171,8 +204,18 @@ public class Player : MonoBehaviour, IKillable, IDamageble<int>
         }
         else
         {
-            Debug.Log("player earned Some move speed");
-            
+            // Debug.Log("player earned Some move speed");
         }
     }
+
+    private void OnDestroy()
+    {
+        UnsubscribeEvents();
+    }
+}
+
+public enum PlayerJoystickState
+{
+    Enabled,
+    Disabled
 }

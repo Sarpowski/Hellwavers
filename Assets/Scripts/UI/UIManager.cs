@@ -10,11 +10,6 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameplayWindow gameplayWindow;
 
-
-
-    public ScoreController score_ui;
-    //can be generic
-
     private void Start()
     {
         Initialize();
@@ -25,25 +20,17 @@ public class UIManager : MonoBehaviour
         gameplayWindow.Initialize(3);
 
         GameManager.Instance.player.PlayerHealthChanged += OnPlayerHealthChanged; //decreaseHealth
-        GameManager.Instance.player.PlayerDied += OnPlayerDied; // player dead 
-        EnemyManager.OnSuccess += OnSuccesEnd;
+        GameManager.Instance.GameplayFinished += OnGameplayFinished; // player dead 
+
         //initial UI update 
         //UpdateHealthUI(GameManager.Instance.GetPlayerHealth());
-    }
-
-    private void OnSuccesEnd()
-    {
-        //TODO implement success screen
-        Debug.Log("BOSS died and this sended from UI manager");
-        OnPlayerWins();
     }
 
     private void OnDestroy()
     {
         Debug.Log("UI_PlayerHealth_Controller: Unsubscribing from events");
         GameManager.Instance.player.PlayerHealthChanged -= OnPlayerHealthChanged;
-        GameManager.Instance.player.PlayerDied -= OnPlayerDied;
-        EnemyManager.OnSuccess -= OnSuccesEnd;
+        GameManager.Instance.GameplayFinished -= OnGameplayFinished;
     }
 
     private void OnPlayerHealthChanged(int currentHealth)
@@ -51,13 +38,15 @@ public class UIManager : MonoBehaviour
         gameplayWindow.UpdateHealthUIElements(currentHealth);
     }
 
-    private void OnPlayerDied()
+    private void OnGameplayFinished(bool isSuccess)
     {
-        gameplayWindow.ShowGameOverScreen();
-    }
-
-    private void OnPlayerWins()
-    {
-        gameplayWindow.ShowGameSuccesScreem();
+        if (isSuccess)
+        {
+            gameplayWindow.ShowGameSuccesScreem();
+        }
+        else
+        {
+            gameplayWindow.ShowGameOverScreen();
+        }
     }
 }

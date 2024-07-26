@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    
-    public static event Action killedAnEnemy;
     public float speed = 10f;
     public float lifetime = 5f; // Projectile will be destroyed after this time
 

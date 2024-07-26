@@ -7,21 +7,23 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAi : MonoBehaviour
 {
-    
     public Transform player;
     private NavMeshAgent agent;
     public Player player_Target;
-    public Animator animator; 
-    public static event Action OnEnemyDeath;
-    
+    public Animator animator;
+
+    private int _scoreValue;
+    public static event Action<int> OnEnemyDeath;
+
     public bool isDead { get; private set; } = false;
-    
+
     [SerializeField] public int _health;
+
     void Start()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        
+
         if (GameManager.Instance != null)
         {
             player_Target = GameManager.Instance.player;
@@ -32,11 +34,14 @@ public class EnemyAi : MonoBehaviour
             player = player_Target.transform;
             player_Target.PlayerDied += OnPlayerDied;
         }
-        animator.SetBool("idle",false);
+
+        animator.SetBool("idle", false);
         animator.SetBool("run", true);
+
+        //TODO : CHeck enemy type to calculate final score value
+        _scoreValue = 1;
     }
 
-   
     // Update is called once per frame
     void Update()
     {
@@ -48,18 +53,23 @@ public class EnemyAi : MonoBehaviour
 
     public void OnCollisionEnter(Collision other)
     {
-        
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("enemy got hitted by player");
-            Die();
-
+            OnCollidedWithPlayer(other);
         }
     }
+
+    private void OnCollidedWithPlayer(Collision other)
+    {
+        Debug.Log("enemy got hitted by player");
+        Die();
+    }
+
     //enemyStat manager could be 
     private void Die()
     {
-        OnEnemyDeath?.Invoke();
+        OnEnemyDeath?.Invoke(_scoreValue);
+
         player_Target.PlayerDied -= OnPlayerDied;
 
         gameObject.tag = "DiedEnemy";
@@ -67,20 +77,21 @@ public class EnemyAi : MonoBehaviour
         agent.enabled = false;
         // gameObject.layer = noCollisonLayer;
         SetLayerRecursively(gameObject, noCollisonLayer);
-        
+
         isDead = true;
         animator.enabled = false;
         EnableRagdoll();
-        
+
+        //TODO : Get them on awake
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
         gameObject.GetComponent<EnemyAi>().enabled = false;
-        
-        
+
+
         //Destroy(gameObject);
-        
+
         StartCoroutine(DestroyAfterDelay(10f));
     }
-    
+
     private void EnableRagdoll()
     {
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
@@ -90,6 +101,7 @@ public class EnemyAi : MonoBehaviour
             rb.detectCollisions = true;
         }
     }
+
     private void DisableRagdoll()
     {
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
@@ -99,25 +111,27 @@ public class EnemyAi : MonoBehaviour
             rb.detectCollisions = false;
         }
     }
+
     private IEnumerator DestroyAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         gameObject.SetActive(false);
         // Destroy(gameObject);
-            
     }
+
     public void CollidedWithProjectile()
     {
         Die();
     }
+
     private void OnPlayerDied()
     {
         if (agent.isOnNavMesh)
         {
-            agent.isStopped= true;
-            
-            animator.SetBool("run",false); 
-            animator.SetBool("idle",true);
+            agent.isStopped = true;
+
+            animator.SetBool("run", false);
+            animator.SetBool("idle", true);
         }
     }
 
@@ -175,6 +189,7 @@ public class EnemyAi : MonoBehaviour
         {
             Debug.Log("Player target is missing.");
         }
+
         DisableRagdoll();
         animator.SetBool("run", true);
     }
@@ -185,6 +200,7 @@ public class EnemyAi : MonoBehaviour
         {
             return;
         }
+
         obj.layer = newLayer;
         foreach (Transform child in obj.transform)
         {
@@ -192,6 +208,7 @@ public class EnemyAi : MonoBehaviour
             {
                 continue;
             }
+
             SetLayerRecursively(child.gameObject, newLayer);
         }
     }

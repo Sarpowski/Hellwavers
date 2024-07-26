@@ -1,30 +1,20 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-//using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
     public static GameManager Instance;
-    public EnemyAi enemyAi;
     public Player player;
-    public Score score;
-    public PlayerHealthController health;
-    public EnemyObjectPool enemyPool;
-    public SceneHandler sceneControl;
-    public DetectTarget detectTarget;
+    public EnemyManager enemyManager;
 
-    public EventManager eventManager;
-    //test
-   [SerializeField] public SceneHandler scene;
+    public event Action<bool> GameplayFinished;
+
     private void Awake()
     {
-        if (Instance == null)
+        if (!Instance)
         {
             Instance = this;
-            
+
             //DontDestroyOnLoad(gameObject);
         }
         else
@@ -32,8 +22,56 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
 
-  
-    
+    private void Start()
+    {
+        Initialize();
+        StartGameplay();
+    }
+
+    private void Initialize()
+    {
+        SubscribeEvents();
+
+        enemyManager.Initialize();
+        player.Initialize();
+    }
+
+    private void StartGameplay()
+    {
+        enemyManager.StartGameplay();
+        player.OnStartGameplay();
+    }
+
+    private void FinishGameplay(bool isSuccess)
+    {
+        enemyManager.FinishGameplay(isSuccess);
+        player.OnFinishGameplay(isSuccess);
+
+        GameplayFinished?.Invoke(isSuccess);
+    }
+
+    private void OnPlayerDied()
+    {
+        FinishGameplay(false);
+    }
+
+    private void OnFinalEnemyDied()
+    {
+        FinishGameplay(true);
+    }
+
+    private void SubscribeEvents()
+    {
+        UnsubscribeEvents();
+
+        player.PlayerDied += OnPlayerDied;
+        enemyManager.FinalEnemyDied += OnFinalEnemyDied;
+    }
+
+    private void UnsubscribeEvents()
+    {
+        player.PlayerDied -= OnPlayerDied;
+        enemyManager.FinalEnemyDied -= OnFinalEnemyDied;
+    }
 }

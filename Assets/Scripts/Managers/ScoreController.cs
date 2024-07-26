@@ -1,15 +1,13 @@
-
 using TMPro;
 using UnityEngine;
 
 public class ScoreController : MonoBehaviour
 {
-    [SerializeField] private int killScore = 1;
     private static int _score = 0;
     [SerializeField] public TMP_Text uiScreenText;
+
     void Start()
     {
-        
         if (uiScreenText == null)
         {
             uiScreenText = GameObject.Find("Ui_score_text").GetComponent<TextMeshPro>();
@@ -19,7 +17,6 @@ public class ScoreController : MonoBehaviour
         {
             initScore();
             EnemyAi.OnEnemyDeath += OnEnemyKilled;
-            Projectile.killedAnEnemy += OnEnemyKilled;
             uiScreenText.text = " " + _score;
         }
         else
@@ -27,27 +24,29 @@ public class ScoreController : MonoBehaviour
             Debug.LogError("uiScreenText is not assigned also cant found :( ");
         }
     }
-  
+
     private void OnDestroy()
     {
         EnemyAi.OnEnemyDeath -= OnEnemyKilled;
-        Projectile.killedAnEnemy -= OnEnemyKilled;
-    }
-    public void initScore()
-    {   
-        _score = 0;
-        Debug.Log("begining score "+ _score);
     }
 
-    public void add_score(int add)
+    public void initScore()
     {
-        _score = _score + 1;
+        _score = 0;
+        Debug.Log("begining score " + _score);
+    }
+
+    private void AddScore(int score)
+    {
+        _score += score;
         UpdateScoreUI();
     }
-    private void OnEnemyKilled()
+
+    private void OnEnemyKilled(int score)
     {
-        add_score(killScore);
+        AddScore(score);
     }
+
     private void UpdateScoreUI()
     {
         if (uiScreenText != null)

@@ -7,7 +7,6 @@ public class Score : MonoBehaviour
 {
     public int EarnedScore;
 
-    [SerializeField] int  killScore;
     void Start()
     {
         initScore();
@@ -26,18 +25,18 @@ public class Score : MonoBehaviour
     public void initScore()
     {
         EarnedScore = 0;
-        Debug.Log("begining score "+ EarnedScore);
+        // Debug.Log("begining score "+ EarnedScore);
     }
 
-    private void OnEnemyKilled()
+    private void OnEnemyKilled(int score)
     {
-        AddScore(killScore);
+        AddScore(score);
     }
     
     private void AddScore(int points)
     {
         EarnedScore += points;
-        Debug.Log($"Score Updated: {EarnedScore}");
+        // Debug.Log($"Score Updated: {EarnedScore}");
     }
     
 }

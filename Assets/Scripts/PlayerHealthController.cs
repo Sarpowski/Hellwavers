@@ -19,12 +19,22 @@ public class PlayerHealthController : MonoBehaviour, IDamageble<int>
         
     }
 
-    public void initHealth()
+    public void Initialize()
     {
         _maxHealth = SetDefaultHealth(_maxHealth);
         _currentHealth = _maxHealth;
     }
 
+    
+    public void OnStartGameplay()
+    {
+        
+    }
+    
+    public void OnFinishGameplay()
+    {
+        
+    }
     public int getHealth()
     {
         return _currentHealth;
@@ -56,4 +66,5 @@ public class PlayerHealthController : MonoBehaviour, IDamageble<int>
 
         }
     }
+
 }
