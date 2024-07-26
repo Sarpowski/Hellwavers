@@ -6,9 +6,9 @@ using UnityEngine.AI;
 public class GemSpawner : MonoBehaviour
 {
     
-    public GameObject[] gems; // Array of gem prefabs to spawn
+    public GameObject[] gems; 
     public float range = 10.0f;
-    public float spawnInterval = 2.0f; // Time interval between spawns
+    public float spawnInterval = 2.0f; 
     private float spawnTimer;
 
     bool RandomPoint(Vector3 center, float range, out Vector3 result)
@@ -32,24 +32,18 @@ public class GemSpawner : MonoBehaviour
       
        
         spawnTimer += Time.deltaTime;
-      //  Debug.Log("Spawn Timer: " + spawnTimer);
 
         if (spawnTimer >= spawnInterval)
         {
-        //    Debug.Log("Spawn interval reached");
             spawnTimer = 0f;
             Vector3 point;
             if (RandomPoint(transform.position, range, out point))
             {
-         //       Debug.Log("Valid spawn point found");
                 Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
                 
                 SpawnGem(point);
             }
-            // else
-            // {
-            //     Debug.LogError("No valid spawn point found");
-            // }
+           
         }
     }
 
@@ -59,12 +53,12 @@ public class GemSpawner : MonoBehaviour
         {
             int randomIndex = Random.Range(0, gems.Length);
             GameObject gem = Instantiate(gems[randomIndex], position, Quaternion.identity);
-            gem.name = gems[randomIndex].name; // Naming the gem instance for easier identification
+            gem.name = gems[randomIndex].name; // Naming the gem for identification
             Debug.Log("Gem spawned: " + gem.name);
         }
         else
         {
-            Debug.LogWarning("No gems to spawn");
+            Debug.LogWarning("cant spawn the gems");
         }
     }
 }

@@ -10,7 +10,7 @@ public class SceneHandler : MonoBehaviour
         //TODO load level 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    //Future Implementation for the Start Game logic 
+     
     public void MenuGame()
     {
         //could be a menu scene
